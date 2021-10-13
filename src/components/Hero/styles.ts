@@ -12,9 +12,13 @@ const heroAnimation = keyframes`
 `;
 
 const Container = styled.div<IStyledHeroProps>`
-  width: 84px;
-  height: 84px;
+  width: ${({ size }) => `${size}px`};
+  height: ${({ size }) => `${size}px`};
   transform: scale(2);
+  position: absolute;
+  left: ${({ horizontalPosition, size }) => `${horizontalPosition * size}px`};
+  top: ${({ vericalPosition, size }) => `${vericalPosition * size}px`};
+  transition: all 0.3s ease;
 
   ${({ direction }) =>
     direction === 'DOWN' &&
