@@ -3,7 +3,7 @@ import { useEffect, useCallback } from 'react';
 import { useHero } from '../../hooks/useHero';
 import { KeyCodes } from '../../enum/KeyCodes';
 
-import { Container } from './styles';
+import { Container, LifeContainer } from './styles';
 
 export function Hero(): JSX.Element {
   const {
@@ -18,6 +18,7 @@ export function Hero(): JSX.Element {
     handleAttack,
     direction,
     isDead,
+    life,
   } = useHero();
 
   const handleKeyDown = useCallback(
@@ -70,12 +71,16 @@ export function Hero(): JSX.Element {
   }, [handleKeyDown, isBlocked]);
 
   return (
-    <Container
-      isAttacking={isAttacking}
-      direction={direction}
-      horizontalPosition={positionHorizontal}
-      vericalPosition={positionVertical}
-      isDead={isDead}
-    />
+    <>
+      <Container
+        isAttacking={isAttacking}
+        direction={direction}
+        horizontalPosition={positionHorizontal}
+        vericalPosition={positionVertical}
+        isDead={isDead}
+      >
+        <LifeContainer life={life}>{life}%</LifeContainer>
+      </Container>
+    </>
   );
 }

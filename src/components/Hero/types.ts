@@ -7,3 +7,7 @@ export interface IStyledHeroProps {
   vericalPosition: number;
   isDead: boolean;
 }
+
+export interface IStyledLifeProps {
+  life: number;
+}

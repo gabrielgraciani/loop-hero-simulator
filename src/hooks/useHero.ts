@@ -1,20 +1,43 @@
 import { useEffect, useState } from 'react';
 
+import { DirectionsEnum } from '../enum/Directions';
+
 import { IDirections } from '../interfaces/Directions';
 
-import { attackDurationMS } from '../utils/helper';
+import {
+  attackDurationMS,
+  heroInitialLife,
+  randomNumber,
+} from '../utils/helper';
 
-export const useHero = () => {
+interface IUseHeroResponse {
+  positionHorizontal: number;
+  positionVertical: number;
+  direction: IDirections;
+  moveLeft: () => void;
+  moveRight: () => void;
+  moveDown: () => void;
+  moveUp: () => void;
+  handleAttack: () => void;
+  isAttacking: boolean;
+  isBlocked: boolean;
+  isDead: boolean;
+  life: number;
+  handleReceiveDamage: () => void;
+}
+
+export const useHero = (): IUseHeroResponse => {
   const [position, setPosition] = useState({ x: 5, y: 5 });
-  const [direction, setDirection] = useState<IDirections>('DOWN');
+  const [direction, setDirection] = useState<IDirections>(DirectionsEnum.DOWN);
   const [isAttacking, setIsAttacking] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
   // TODO remove this eslint disable rule when i make the death function
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isDead, setIsDead] = useState(false);
+  const [life, setLife] = useState(heroInitialLife);
 
   function moveLeft() {
-    setDirection('LEFT');
+    setDirection(DirectionsEnum.LEFT);
     setPosition(pos => ({
       x: pos.x - 1,
       y: pos.y,
@@ -22,7 +45,7 @@ export const useHero = () => {
   }
 
   function moveRight() {
-    setDirection('RIGHT');
+    setDirection(DirectionsEnum.RIGHT);
     setPosition(pos => ({
       x: pos.x + 1,
       y: pos.y,
@@ -30,7 +53,7 @@ export const useHero = () => {
   }
 
   function moveDown() {
-    setDirection('DOWN');
+    setDirection(DirectionsEnum.DOWN);
     setPosition(pos => ({
       x: pos.x,
       y: pos.y + 1,
@@ -38,7 +61,7 @@ export const useHero = () => {
   }
 
   function moveUp() {
-    setDirection('UP');
+    setDirection(DirectionsEnum.UP);
     setPosition(pos => ({
       x: pos.x,
       y: pos.y - 1,
@@ -48,6 +71,21 @@ export const useHero = () => {
   function handleAttack() {
     setIsAttacking(true);
     setIsBlocked(true);
+  }
+
+  function handleReceiveDamage() {
+    const randomDamage = randomNumber(1, 50);
+
+    setLife(oldLife => {
+      const result = oldLife - randomDamage;
+      if (result <= 0) {
+        setIsDead(true);
+        setIsBlocked(true);
+        return 0;
+      }
+
+      return result;
+    });
   }
 
   useEffect(() => {
@@ -71,5 +109,7 @@ export const useHero = () => {
     isAttacking,
     isBlocked,
     isDead,
+    life,
+    handleReceiveDamage,
   };
 };

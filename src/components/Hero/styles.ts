@@ -8,7 +8,9 @@ import {
   heroSize,
 } from '../../utils/helper';
 
-import { IStyledHeroProps } from './types';
+import { Colors } from '../../styles/Colors';
+
+import { IStyledHeroProps, IStyledLifeProps } from './types';
 
 const heroAnimation = keyframes`
   from {
@@ -34,8 +36,7 @@ const directionAnimation = (
   if (isDead) {
     return css`
       background: url('images/hero/hero_death.png') no-repeat;
-      animation: ${heroAnimation} ${deathDurationMS / 1000}s steps(4) forwards;
-      animation-iteration-count: 4;
+      animation: ${heroAnimation} ${deathDurationMS / 1000}s steps(4) infinite;
     `;
   }
 
@@ -59,4 +60,34 @@ const Container = styled.div<IStyledHeroProps>`
     directionAnimation(props.direction, props.isAttacking, props.isDead)}
 `;
 
-export { Container };
+const LifeContainer = styled.div<IStyledLifeProps>`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  width: 100%;
+  height: 1.6rem;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: ${Colors.life_empty};
+  border: 0.1rem solid ${Colors.gray};
+  border-radius: 0.2rem;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: ${({ life }) => `${life}%`};
+    height: 100%;
+    background: ${Colors.life};
+    z-index: -1;
+    transition: all 0.3s ease;
+  }
+`;
+
+export { Container, LifeContainer };
