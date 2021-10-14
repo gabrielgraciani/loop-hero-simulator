@@ -1,5 +1,13 @@
 import styled, { keyframes, css } from 'styled-components';
 
+import { IDirections } from '../../interfaces/Directions';
+import {
+  attackDurationMS,
+  deathDurationMS,
+  idleDurationMS,
+  heroSize,
+} from '../../utils/helper';
+
 import { IStyledHeroProps } from './types';
 
 const heroAnimation = keyframes`
@@ -7,51 +15,48 @@ const heroAnimation = keyframes`
     background-position-x: 0;
   }
   to {
-    background-position-x: -336px;
+    background-position-x: -33.6rem;
   }
 `;
 
+const directionAnimation = (
+  direction: IDirections,
+  isAttacking: boolean,
+  isDead: boolean,
+) => {
+  if (isAttacking) {
+    return css`
+      background: ${`url('images/hero/hero_attack_${direction}.png') no-repeat`};
+      animation: ${heroAnimation} ${attackDurationMS / 1000}s steps(4) infinite;
+    `;
+  }
+
+  if (isDead) {
+    return css`
+      background: url('images/hero/hero_death.png') no-repeat;
+      animation: ${heroAnimation} ${deathDurationMS / 1000}s steps(4) forwards;
+      animation-iteration-count: 4;
+    `;
+  }
+
+  return css`
+    background: ${`url('images/hero/hero_idle_${direction}.png') no-repeat`};
+    animation: ${heroAnimation} ${idleDurationMS / 1000}s steps(4) infinite;
+  `;
+};
+
 const Container = styled.div<IStyledHeroProps>`
-  width: ${({ size }) => `${size}px`};
-  height: ${({ size }) => `${size}px`};
-  left: ${({ horizontalPosition, size }) => `${horizontalPosition * size}px`};
-  top: ${({ vericalPosition, size }) => `${vericalPosition * size}px`};
+  width: ${`${heroSize / 10}rem`};
+  height: ${`${heroSize / 10}rem`};
+  left: ${({ horizontalPosition }) =>
+    `${(horizontalPosition * heroSize) / 10}rem`};
+  top: ${({ vericalPosition }) => `${(vericalPosition * heroSize) / 10}rem`};
   position: absolute;
   transform: scale(2);
   transition: all 0.3s ease;
 
-  ${({ direction }) =>
-    direction === 'DOWN' &&
-    css`
-      background: url('images/hero/hero_idle_down.png') no-repeat;
-      animation: ${heroAnimation} 0.5s steps(4) infinite;
-    `}
-
-  ${({ direction }) =>
-    direction === 'UP' &&
-    css`
-      background: url('images/hero/hero_idle_up.png') no-repeat;
-      animation: ${heroAnimation} 0.5s steps(4) infinite;
-    `}
-  ${({ direction }) =>
-    direction === 'LEFT' &&
-    css`
-      background: url('images/hero/hero_idle_left.png') no-repeat;
-      animation: ${heroAnimation} 0.5s steps(4) infinite;
-    `}
-  ${({ direction }) =>
-    direction === 'RIGHT' &&
-    css`
-      background: url('images/hero/hero_idle_right.png') no-repeat;
-      animation: ${heroAnimation} 0.5s steps(4) infinite;
-    `}
-
-  ${({ isAttacking }) =>
-    isAttacking &&
-    css`
-      background: url('images/hero/hero_attack_down.png') no-repeat;
-      animation: ${heroAnimation} 1s steps(4) infinite;
-    `}
+  ${props =>
+    directionAnimation(props.direction, props.isAttacking, props.isDead)}
 `;
 
 export { Container };

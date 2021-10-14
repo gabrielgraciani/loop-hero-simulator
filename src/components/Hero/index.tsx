@@ -6,37 +6,48 @@ import { KeyCodes } from '../../enum/KeyCodes';
 import { Container } from './styles';
 
 export function Hero(): JSX.Element {
-  const hero = useHero();
-  const size = 84;
+  const {
+    isBlocked,
+    isAttacking,
+    positionHorizontal,
+    positionVertical,
+    moveUp,
+    moveRight,
+    moveLeft,
+    moveDown,
+    handleAttack,
+    direction,
+    isDead
+  } = useHero();
 
   function handleKeyDown(event: KeyboardEvent) {
     switch (event.code) {
       case KeyCodes.ARROW_UP:
       case KeyCodes.KEY_W: {
-        hero.moveUp();
+        moveUp();
         break;
       }
 
       case KeyCodes.ARROW_DOWN:
       case KeyCodes.KEY_S: {
-        hero.moveDown();
+        moveDown();
         break;
       }
 
       case KeyCodes.ARROW_LEFT:
       case KeyCodes.KEY_A: {
-        hero.moveLeft();
+        moveLeft();
         break;
       }
 
       case KeyCodes.ARROW_RIGHT:
       case KeyCodes.KEY_D: {
-        hero.moveRight();
+        moveRight();
         break;
       }
 
       case KeyCodes.SPACE: {
-        hero.handleAttack();
+        handleAttack();
       }
 
       default: {
@@ -46,19 +57,21 @@ export function Hero(): JSX.Element {
   }
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
+    if (!isBlocked) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [isBlocked]);
 
   return (
     <Container
-      isAttacking={hero.isAttacking}
-      direction={hero.direction}
-      size={size}
-      horizontalPosition={hero.positionHorizontal}
-      vericalPosition={hero.positionVertical}
+      isAttacking={isAttacking}
+      direction={direction}
+      horizontalPosition={positionHorizontal}
+      vericalPosition={positionVertical}
+      isDead={isDead}
     />
-    );
+  );
 }

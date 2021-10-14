@@ -2,10 +2,16 @@ import { useEffect, useState } from 'react';
 
 import { IDirections } from '../interfaces/Directions';
 
+import { attackDurationMS } from '../utils/helper';
+
 export const useHero = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 5, y: 5 });
   const [direction, setDirection] = useState<IDirections>('DOWN');
   const [isAttacking, setIsAttacking] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+  // TODO remove this eslint disable rule when i make the death function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isDead, setIsDead] = useState(false);
 
   function moveLeft() {
     setDirection('LEFT');
@@ -41,13 +47,15 @@ export const useHero = () => {
 
   function handleAttack() {
     setIsAttacking(true);
+    setIsBlocked(true);
   }
 
   useEffect(() => {
     if (isAttacking) {
       setTimeout(() => {
         setIsAttacking(false);
-      }, 1000);
+        setIsBlocked(false);
+      }, attackDurationMS);
     }
   }, [isAttacking]);
 
@@ -61,5 +69,7 @@ export const useHero = () => {
     moveUp,
     handleAttack,
     isAttacking,
+    isBlocked,
+    isDead,
   };
 };

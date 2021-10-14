@@ -1,6 +1,15 @@
+import Head from 'next/head';
+
 import { Hero } from '../components/Hero';
 
 import { useWindowSize } from '../hooks/useWindowSize';
+
+import {
+  Container,
+  SquaresContainer,
+  SquareRowContainer,
+  Square,
+} from './Home.styles';
 
 export default function Home() {
   const { width, height } = useWindowSize();
@@ -12,25 +21,23 @@ export default function Home() {
   const verticalSquaresArray = Array.from(Array(verticalSquares).keys());
 
   return (
-    <div
-      style={{ backgroundColor: 'green', position: 'relative', height: '100%' }}
-    >
-      <Hero />
-      {verticalSquaresArray.map(itemVertical => (
-        <div style={{ display: 'flex' }} key={itemVertical}>
-          {horizontalSquaresArray.map(itemHorizontal => (
-            <div
-              style={{
-                width: '84px',
-                height: '84px',
-                background: 'blue',
-                border: '1px solid red',
-              }}
-              key={`${itemVertical}-${itemHorizontal}`}
-            />
+    <>
+      <Head>
+        <title>Walking Simulator Game</title>
+      </Head>
+
+      <Container>
+        <SquaresContainer>
+          <Hero />
+          {verticalSquaresArray.map(itemVertical => (
+            <SquareRowContainer key={itemVertical}>
+              {horizontalSquaresArray.map(itemHorizontal => (
+                <Square key={`${itemVertical}-${itemHorizontal}`} />
+              ))}
+            </SquareRowContainer>
           ))}
-        </div>
-      ))}
-    </div>
+        </SquaresContainer>
+      </Container>
+    </>
   );
 }

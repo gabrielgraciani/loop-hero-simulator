@@ -1,11 +1,9 @@
 import { IDirections } from '../../interfaces/Directions';
 
-interface IStyledHeroProps {
+export interface IStyledHeroProps {
   isAttacking: boolean;
   direction: IDirections;
   horizontalPosition: number;
   vericalPosition: number;
-  size: number;
+  isDead: boolean;
 }
-
-export { IStyledHeroProps };
