@@ -11,7 +11,7 @@ import {
   Square,
 } from './Home.styles';
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const { width, height } = useWindowSize();
 
   const horizontalSquares = Math.round((width || 0) / 84);

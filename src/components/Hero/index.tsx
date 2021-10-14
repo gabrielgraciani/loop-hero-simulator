@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import { useHero } from '../../hooks/useHero';
 import { KeyCodes } from '../../enum/KeyCodes';
@@ -17,44 +17,48 @@ export function Hero(): JSX.Element {
     moveDown,
     handleAttack,
     direction,
-    isDead
+    isDead,
   } = useHero();
 
-  function handleKeyDown(event: KeyboardEvent) {
-    switch (event.code) {
-      case KeyCodes.ARROW_UP:
-      case KeyCodes.KEY_W: {
-        moveUp();
-        break;
-      }
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      switch (event.code) {
+        case KeyCodes.ARROW_UP:
+        case KeyCodes.KEY_W: {
+          moveUp();
+          break;
+        }
 
-      case KeyCodes.ARROW_DOWN:
-      case KeyCodes.KEY_S: {
-        moveDown();
-        break;
-      }
+        case KeyCodes.ARROW_DOWN:
+        case KeyCodes.KEY_S: {
+          moveDown();
+          break;
+        }
 
-      case KeyCodes.ARROW_LEFT:
-      case KeyCodes.KEY_A: {
-        moveLeft();
-        break;
-      }
+        case KeyCodes.ARROW_LEFT:
+        case KeyCodes.KEY_A: {
+          moveLeft();
+          break;
+        }
 
-      case KeyCodes.ARROW_RIGHT:
-      case KeyCodes.KEY_D: {
-        moveRight();
-        break;
-      }
+        case KeyCodes.ARROW_RIGHT:
+        case KeyCodes.KEY_D: {
+          moveRight();
+          break;
+        }
 
-      case KeyCodes.SPACE: {
-        handleAttack();
-      }
+        case KeyCodes.SPACE: {
+          handleAttack();
+          break;
+        }
 
-      default: {
-        break;
+        default: {
+          break;
+        }
       }
-    }
-  }
+    },
+    [handleAttack, moveDown, moveLeft, moveRight, moveUp],
+  );
 
   useEffect(() => {
     if (!isBlocked) {
@@ -63,7 +67,7 @@ export function Hero(): JSX.Element {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isBlocked]);
+  }, [handleKeyDown, isBlocked]);
 
   return (
     <Container
