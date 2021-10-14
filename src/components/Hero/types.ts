@@ -1,4 +1,4 @@
-type IDirections = 'DOWN' | 'UP' | 'LEFT' | 'RIGHT';
+import { IDirections } from '../../interfaces/Directions';
 
 interface IStyledHeroProps {
   isAttacking: boolean;
@@ -8,4 +8,4 @@ interface IStyledHeroProps {
   size: number;
 }
 
-export { IStyledHeroProps, IDirections };
+export { IStyledHeroProps };

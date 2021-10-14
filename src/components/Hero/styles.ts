@@ -14,10 +14,10 @@ const heroAnimation = keyframes`
 const Container = styled.div<IStyledHeroProps>`
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
-  transform: scale(2);
-  position: absolute;
   left: ${({ horizontalPosition, size }) => `${horizontalPosition * size}px`};
   top: ${({ vericalPosition, size }) => `${vericalPosition * size}px`};
+  position: absolute;
+  transform: scale(2);
   transition: all 0.3s ease;
 
   ${({ direction }) =>

@@ -1,59 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
+import { useHero } from '../../hooks/useHero';
+import { KeyCodes } from '../../enum/KeyCodes';
 
 import { Container } from './styles';
-import { IDirections } from './types';
 
 export function Hero(): JSX.Element {
-  const [isAttacking, setIsAttacking] = useState(false);
-  const [direction, setDirection] = useState<IDirections>('DOWN');
-  const [position, setPosition] = useState({x : 0, y: 0});
-
+  const hero = useHero();
   const size = 84;
 
-  function checkKey(key: string) {
-    switch (key) {
-      case 'ArrowUp':
-      case 'w': {
-        setDirection('UP');
-        setPosition(pos => ({
-          x: pos.x,
-          y: pos.y - 1,
-        }));
+  function handleKeyDown(event: KeyboardEvent) {
+    switch (event.code) {
+      case KeyCodes.ARROW_UP:
+      case KeyCodes.KEY_W: {
+        hero.moveUp();
         break;
       }
 
-      case 'ArrowDown':
-      case 's': {
-        setDirection('DOWN');
-        setPosition(pos => ({
-          x: pos.x,
-          y: pos.y + 1,
-        }));
+      case KeyCodes.ARROW_DOWN:
+      case KeyCodes.KEY_S: {
+        hero.moveDown();
         break;
       }
 
-      case 'ArrowLeft':
-      case 'a': {
-        setDirection('LEFT');
-        setPosition(pos => ({
-          x: pos.x - 1,
-          y: pos.y,
-        }));
+      case KeyCodes.ARROW_LEFT:
+      case KeyCodes.KEY_A: {
+        hero.moveLeft();
         break;
       }
 
-      case 'ArrowRight':
-      case 'd': {
-        setDirection('RIGHT');
-        setPosition(pos => ({
-          x: pos.x + 1,
-          y: pos.y,
-        }));
+      case KeyCodes.ARROW_RIGHT:
+      case KeyCodes.KEY_D: {
+        hero.moveRight();
         break;
       }
 
-      case ' ': {
-        setIsAttacking(true);
+      case KeyCodes.SPACE: {
+        hero.handleAttack();
       }
 
       default: {
@@ -62,10 +45,6 @@ export function Hero(): JSX.Element {
     }
   }
 
-  function handleKeyDown(event: KeyboardEvent) {
-    console.log(event)
-    checkKey(event.key);
-  }
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -73,13 +52,13 @@ export function Hero(): JSX.Element {
     };
   }, []);
 
-  useEffect(() => {
-    if(isAttacking) {
-      setTimeout(() => {
-        setIsAttacking(false);
-      }, 1000)
-    }
-  }, [isAttacking])
-
-  return <Container isAttacking={isAttacking} direction={direction} size={size} horizontalPosition={position.x} vericalPosition={position.y} />;
+  return (
+    <Container
+      isAttacking={hero.isAttacking}
+      direction={hero.direction}
+      size={size}
+      horizontalPosition={hero.positionHorizontal}
+      vericalPosition={hero.positionVertical}
+    />
+    );
 }
