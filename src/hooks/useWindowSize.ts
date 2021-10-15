@@ -13,8 +13,8 @@ export function useWindowSize(): ISize {
   useEffect(() => {
     function handleResize() {
       setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: window.innerWidth - 60,
+        height: window.innerHeight - 60,
       });
     }
 
