@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { Colors } from './Colors';
+
 const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
@@ -17,8 +19,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: #fff;
-    color: #000;
+    background: ${Colors.white};
+    color: ${Colors.black};
     height:100%;
   }
 
@@ -30,14 +32,14 @@ const GlobalStyles = createGlobalStyle`
 
   button {
     cursor: pointer;
-    color: #000;
+    color: ${Colors.black};
     font-size: 1.4rem;
     border:0;
   }
 
   h1, h2, h3, h4, h5, h6 {
     margin: 0;
-    color:#000;
+    color: ${Colors.black};
   }
 
   span, p, label, input, textarea, select, button, div {

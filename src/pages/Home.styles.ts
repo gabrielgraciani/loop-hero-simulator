@@ -18,8 +18,8 @@ const SquareRowContainer = styled.div`
 `;
 
 const Square = styled.div`
-  width: 8.4rem;
-  height: 8.4rem;
+  width: 4.8rem;
+  height: 4.8rem;
   background: #c0c0c0;
   border: 0.1rem solid blue;
 `;

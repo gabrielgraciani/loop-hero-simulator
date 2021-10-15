@@ -4,11 +4,8 @@ import { DirectionsEnum } from '../enum/Directions';
 
 import { IDirections } from '../interfaces/Directions';
 
-import {
-  attackDurationMS,
-  heroInitialLife,
-  randomNumber,
-} from '../utils/helper';
+import { randomNumber } from '../utils/helper';
+import { attackDurationMS, heroInitialLife } from '../config/Constants';
 
 interface IUseHeroResponse {
   positionHorizontal: number;

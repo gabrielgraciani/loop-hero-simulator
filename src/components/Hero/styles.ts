@@ -5,8 +5,8 @@ import {
   attackDurationMS,
   deathDurationMS,
   idleDurationMS,
-  heroSize,
-} from '../../utils/helper';
+  tileSize,
+} from '../../config/Constants';
 
 import { Colors } from '../../styles/Colors';
 
@@ -17,7 +17,7 @@ const heroAnimation = keyframes`
     background-position-x: 0;
   }
   to {
-    background-position-x: -33.6rem;
+    background-position-x: -19.2rem;
   }
 `;
 
@@ -47,13 +47,12 @@ const directionAnimation = (
 };
 
 const Container = styled.div<IStyledHeroProps>`
-  width: ${`${heroSize / 10}rem`};
-  height: ${`${heroSize / 10}rem`};
+  width: ${`${tileSize / 10}rem`};
+  height: ${`${tileSize / 10}rem`};
   left: ${({ horizontalPosition }) =>
-    `${(horizontalPosition * heroSize) / 10}rem`};
-  top: ${({ vericalPosition }) => `${(vericalPosition * heroSize) / 10}rem`};
+    `${(horizontalPosition * tileSize) / 10}rem`};
+  top: ${({ vericalPosition }) => `${(vericalPosition * tileSize) / 10}rem`};
   position: absolute;
-  transform: scale(2);
   transition: all 0.3s ease;
 
   ${props =>
@@ -62,11 +61,11 @@ const Container = styled.div<IStyledHeroProps>`
 
 const LifeContainer = styled.div<IStyledLifeProps>`
   position: absolute;
-  bottom: 0;
+  bottom: -1rem;
   left: 50%;
   transform: translate(-50%, 0);
 
-  width: 100%;
+  width: calc(100% + 4rem);
   height: 1.6rem;
   font-size: 0.8rem;
   display: flex;
