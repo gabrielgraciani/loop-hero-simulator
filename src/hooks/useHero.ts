@@ -6,6 +6,7 @@ import { IDirections } from '../interfaces/Directions';
 
 import { randomNumber } from '../utils/helper';
 import { attackDurationMS, heroInitialLife } from '../config/Constants';
+import { useMap } from '../contexts/MapContext';
 
 interface IUseHeroResponse {
   positionHorizontal: number;
@@ -27,9 +28,16 @@ interface IUseHeroProps {
   initialPosition: { x: number; y: number };
 }
 
+interface ICanMoveProps {
+  x: number;
+  y: number;
+}
+
 export const useHero = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
+  const { map } = useMap();
+
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(DirectionsEnum.DOWN);
   const [isAttacking, setIsAttacking] = useState(false);
@@ -39,10 +47,17 @@ export const useHero = ({
   const [isDead, setIsDead] = useState(false);
   const [life, setLife] = useState(heroInitialLife);
 
+  function canMove({ x, y }: ICanMoveProps) {
+    if (map?.length && map[y] !== undefined && map[y][x] !== undefined) {
+      return map[y][x] === 0;
+    }
+    return false;
+  }
+
   function moveLeft() {
     setDirection(DirectionsEnum.LEFT);
     setPosition(pos => ({
-      x: pos.x - 1,
+      x: canMove({ x: pos.x - 1, y: pos.y }) ? pos.x - 1 : pos.x,
       y: pos.y,
     }));
   }
@@ -50,7 +65,7 @@ export const useHero = ({
   function moveRight() {
     setDirection(DirectionsEnum.RIGHT);
     setPosition(pos => ({
-      x: pos.x + 1,
+      x: canMove({ x: pos.x + 1, y: pos.y }) ? pos.x + 1 : pos.x,
       y: pos.y,
     }));
   }
@@ -59,7 +74,7 @@ export const useHero = ({
     setDirection(DirectionsEnum.DOWN);
     setPosition(pos => ({
       x: pos.x,
-      y: pos.y + 1,
+      y: canMove({ x: pos.x, y: pos.y + 1 }) ? pos.y + 1 : pos.y,
     }));
   }
 
@@ -67,7 +82,7 @@ export const useHero = ({
     setDirection(DirectionsEnum.UP);
     setPosition(pos => ({
       x: pos.x,
-      y: pos.y - 1,
+      y: canMove({ x: pos.x, y: pos.y - 1 }) ? pos.y - 1 : pos.y,
     }));
   }
 
