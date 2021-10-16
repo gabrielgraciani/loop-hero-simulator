@@ -21,42 +21,61 @@ const heroAnimation = keyframes`
   }
 `;
 
-const directionAnimation = (
-  direction: IDirections,
-  isAttacking: boolean,
-  isDead: boolean,
-) => {
+const backgroundAnimation = (isAttacking: boolean, isDead: boolean) => {
   if (isAttacking) {
     return css`
-      background: ${`url('images/hero/hero_attack_${direction}.png') no-repeat`};
       animation: ${heroAnimation} ${attackDurationMS / 1000}s steps(4) infinite;
     `;
   }
 
   if (isDead) {
     return css`
-      background: url('images/hero/hero_death.png') no-repeat;
       animation: ${heroAnimation} ${deathDurationMS / 1000}s steps(4) infinite;
     `;
   }
 
   return css`
-    background: ${`url('images/hero/hero_idle_${direction}.png') no-repeat`};
     animation: ${heroAnimation} ${idleDurationMS / 1000}s steps(4) infinite;
   `;
 };
 
-const Container = styled.div<IStyledHeroProps>`
+function getBackground(
+  direction: IDirections,
+  isAttacking: boolean,
+  isDead: boolean,
+) {
+  if (isAttacking) {
+    return `url(images/hero/hero_attack_${direction}.png) no-repeat`;
+  }
+
+  if (isDead) {
+    return `url(images/hero/hero_death.png) no-repeat`;
+  }
+
+  return `url(images/hero/hero_idle_${direction}.png) no-repeat`;
+}
+
+const Container = styled.div.attrs((props: IStyledHeroProps) => {
+  const backgroundTeste = getBackground(
+    props.direction,
+    props.isAttacking,
+    props.isDead,
+  );
+
+  return {
+    style: {
+      left: `${(props.horizontalPosition * tileSize) / 10}rem`,
+      top: `${(props.vericalPosition * tileSize) / 10}rem`,
+      background: backgroundTeste,
+    },
+  };
+})<IStyledHeroProps>`
   width: ${`${tileSize / 10}rem`};
   height: ${`${tileSize / 10}rem`};
-  left: ${({ horizontalPosition }) =>
-    `${(horizontalPosition * tileSize) / 10}rem`};
-  top: ${({ vericalPosition }) => `${(vericalPosition * tileSize) / 10}rem`};
   position: absolute;
   transition: all 0.3s ease;
 
-  ${props =>
-    directionAnimation(props.direction, props.isAttacking, props.isDead)}
+  ${props => backgroundAnimation(props.isAttacking, props.isDead)}
 `;
 
 const LifeContainer = styled.div<IStyledLifeProps>`
