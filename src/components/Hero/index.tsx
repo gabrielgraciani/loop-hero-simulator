@@ -10,8 +10,8 @@ export function Hero({ initialPosition }: IHeroProps): JSX.Element {
   const {
     isBlocked,
     isAttacking,
-    positionHorizontal,
-    positionVertical,
+    x,
+    y,
     moveUp,
     moveRight,
     moveLeft,
@@ -76,8 +76,8 @@ export function Hero({ initialPosition }: IHeroProps): JSX.Element {
       <Container
         isAttacking={isAttacking}
         direction={direction}
-        horizontalPosition={positionHorizontal}
-        vericalPosition={positionVertical}
+        x={x}
+        y={y}
         isDead={isDead}
       >
         <LifeContainer life={life}>{life}%</LifeContainer>

@@ -7,8 +7,8 @@ export interface IHeroProps {
 export interface IStyledHeroProps {
   isAttacking: boolean;
   direction: IDirections;
-  horizontalPosition: number;
-  vericalPosition: number;
+  x: number;
+  y: number;
   isDead: boolean;
 }
 

@@ -64,8 +64,8 @@ const Container = styled.div.attrs((props: IStyledHeroProps) => {
 
   return {
     style: {
-      left: `${(props.horizontalPosition * tileSize) / 10}rem`,
-      top: `${(props.vericalPosition * tileSize) / 10}rem`,
+      left: `${(props.x * tileSize) / 10}rem`,
+      top: `${(props.y * tileSize) / 10}rem`,
       background: backgroundTeste,
     },
   };

@@ -9,8 +9,8 @@ import { attackDurationMS, heroInitialLife } from '../config/Constants';
 import { useMap } from '../contexts/MapContext';
 
 interface IUseHeroResponse {
-  positionHorizontal: number;
-  positionVertical: number;
+  x: number;
+  y: number;
   direction: IDirections;
   moveLeft: () => void;
   moveRight: () => void;
@@ -116,8 +116,8 @@ export const useHero = ({
   }, [isAttacking]);
 
   return {
-    positionHorizontal: position.x,
-    positionVertical: position.y,
+    x: position.x,
+    y: position.y,
     direction,
     moveLeft,
     moveRight,
