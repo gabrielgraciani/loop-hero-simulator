@@ -4,8 +4,9 @@ import { useHero } from '../../hooks/useHero';
 import { KeyCodes } from '../../enum/KeyCodes';
 
 import { Container, LifeContainer } from './styles';
+import { IHeroProps } from './types';
 
-export function Hero(): JSX.Element {
+export function Hero({ initialPosition }: IHeroProps): JSX.Element {
   const {
     isBlocked,
     isAttacking,
@@ -19,7 +20,7 @@ export function Hero(): JSX.Element {
     direction,
     isDead,
     life,
-  } = useHero();
+  } = useHero({ initialPosition });
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {

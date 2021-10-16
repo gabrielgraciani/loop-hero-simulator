@@ -1,9 +1,12 @@
 import Head from 'next/head';
+import { ReactElement } from 'react';
+import { v4 as uuid } from 'uuid';
 
 import { Hero } from '../components/Hero';
 
-import { useWindowSize } from '../hooks/useWindowSize';
-import { tileSize } from '../config/Constants';
+import { useMap } from '../contexts/MapContext';
+
+import { EMapFloor } from '../enum/MapFloor';
 
 import {
   Container,
@@ -13,13 +16,31 @@ import {
 } from './Home.styles';
 
 export default function Home(): JSX.Element {
-  const { width, height } = useWindowSize();
+  const { map } = useMap();
 
-  const horizontalSquares = Math.floor((width || 0) / tileSize);
-  const verticalSquares = Math.floor((height || 0) / tileSize);
+  function renderMapContent() {
+    const array: ReactElement[] = [];
 
-  const horizontalSquaresArray = Array.from(Array(horizontalSquares).keys());
-  const verticalSquaresArray = Array.from(Array(verticalSquares).keys());
+    map.forEach((row, rowIndex) => {
+      row.forEach((column, columnIndex) => {
+        const initialPosition = { x: columnIndex, y: rowIndex };
+        const tileValue = map[rowIndex][columnIndex];
+        const key = `${row}-${column}-${uuid()}`;
+
+        switch (tileValue) {
+          case EMapFloor.HERO: {
+            array.push(<Hero key={key} initialPosition={initialPosition} />);
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+      });
+    });
+
+    return array;
+  }
 
   return (
     <>
@@ -29,14 +50,18 @@ export default function Home(): JSX.Element {
 
       <Container>
         <SquaresContainer>
-          <Hero />
-          {verticalSquaresArray.map(itemVertical => (
-            <SquareRowContainer key={itemVertical}>
-              {horizontalSquaresArray.map(itemHorizontal => (
-                <Square key={`${itemVertical}-${itemHorizontal}`} />
-              ))}
-            </SquareRowContainer>
-          ))}
+          {renderMapContent()}
+          {map.map(row => {
+            const keyRow = uuid();
+            return (
+              <SquareRowContainer key={keyRow}>
+                {row.map(() => {
+                  const keyColumn = uuid();
+                  return <Square key={`${keyRow}-${keyColumn}`} />;
+                })}
+              </SquareRowContainer>
+            );
+          })}
         </SquaresContainer>
       </Container>
     </>

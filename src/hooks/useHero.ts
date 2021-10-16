@@ -23,8 +23,14 @@ interface IUseHeroResponse {
   handleReceiveDamage: () => void;
 }
 
-export const useHero = (): IUseHeroResponse => {
-  const [position, setPosition] = useState({ x: 5, y: 5 });
+interface IUseHeroProps {
+  initialPosition: { x: number; y: number };
+}
+
+export const useHero = ({
+  initialPosition,
+}: IUseHeroProps): IUseHeroResponse => {
+  const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(DirectionsEnum.DOWN);
   const [isAttacking, setIsAttacking] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
