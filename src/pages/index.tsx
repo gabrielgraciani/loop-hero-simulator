@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { Hero } from '../components/Hero';
+import { Trap } from '../components/Trap';
 
 import { useMap } from '../contexts/MapContext';
 
@@ -32,6 +33,11 @@ export default function Home(): JSX.Element {
             array.push(<Hero key={key} initialPosition={initialPosition} />);
             break;
           }
+          case EMapFloor.TRAP: {
+            array.push(<Trap key={key} initialPosition={initialPosition} />);
+            break;
+          }
+
           default: {
             break;
           }

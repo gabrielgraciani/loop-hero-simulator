@@ -74,6 +74,8 @@ const Container = styled.div.attrs((props: IStyledHeroProps) => {
   height: ${`${tileSize / 10}rem`};
   position: absolute;
   transition: all 0.3s ease;
+  z-index: 9;
+  transform: scale(1.5);
 
   ${props => backgroundAnimation(props.isAttacking, props.isDead)}
 `;

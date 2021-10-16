@@ -49,7 +49,7 @@ export const useHero = ({
 
   function canMove({ x, y }: ICanMoveProps) {
     if (map?.length && map[y] !== undefined && map[y][x] !== undefined) {
-      return map[y][x] === 0;
+      return map[y][x] !== 1;
     }
     return false;
   }

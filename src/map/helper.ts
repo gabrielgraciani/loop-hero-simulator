@@ -1,6 +1,62 @@
 import { EMapFloor } from '../enum/MapFloor';
 import { randomNumber } from '../utils/helper';
 
+interface IGenerateRandomRowColumnProps {
+  rowsLength: number;
+  columnsLength: number;
+}
+
+interface IGenerateRandomRowColumnResponse {
+  rowIndex: number;
+  columnIndex: number;
+}
+
+interface IGenerateFilledFieldsOnMapProps {
+  elementQuantity: number;
+  rowsLength: number;
+  columnsLength: number;
+  map: number[][];
+}
+
+function generateRandomRowColumn({
+  rowsLength,
+  columnsLength,
+}: IGenerateRandomRowColumnProps): IGenerateRandomRowColumnResponse {
+  // start in one and finish less 2 to the number of the row doesn't be an wall
+  const randomRow = randomNumber(1, rowsLength - 2);
+  // start in one and finish less 2 to the number of the column doesn't be an wall
+  const randomColumn = randomNumber(1, columnsLength - 2);
+
+  return {
+    rowIndex: randomRow,
+    columnIndex: randomColumn,
+  };
+}
+
+function generateFilledFieldsOnMap({
+  elementQuantity,
+  rowsLength,
+  columnsLength,
+  map,
+}: IGenerateFilledFieldsOnMapProps): number[][] {
+  const newMap = [...map];
+  const elementQuantityArray = Array.from(Array(elementQuantity).keys());
+
+  elementQuantityArray.forEach(() => {
+    const { columnIndex: randomElementColumn, rowIndex: randomElementRow } =
+      generateRandomRowColumn({ rowsLength, columnsLength });
+
+    const isLocalValid =
+      newMap[randomElementRow][randomElementColumn] === EMapFloor.FLOOR;
+
+    if (isLocalValid) {
+      newMap[randomElementRow][randomElementColumn] = EMapFloor.TRAP;
+    }
+  });
+
+  return newMap;
+}
+
 function generateMap(rows: number, columns: number): number[][] {
   const map: number[][] = [];
 
@@ -32,14 +88,28 @@ function generateMap(rows: number, columns: number): number[][] {
     map[rowIndex] = columnsGenerated;
   });
 
-  // start in one and finish less 2 to the number of the row doesn't be an wall
-  const randomRow = randomNumber(1, rowsArray.length - 2);
-  // start in one and finish less 2 to the number of the column doesn't be an wall
-  const randomColumn = randomNumber(1, columnsArray.length - 2);
+  /** CREATE HERO SPOT */
+  const { rowIndex: randomHeroRow, columnIndex: randomHeroColumn } =
+    generateRandomRowColumn({
+      rowsLength: rowsArray.length,
+      columnsLength: columnsArray.length,
+    });
 
-  map[randomRow][randomColumn] = EMapFloor.HERO;
+  map[randomHeroRow][randomHeroColumn] = EMapFloor.HERO;
+  /** CREATE HERO SPOT */
 
-  return map;
+  /** CREATE TRAP SPOTS */
+  const trapsQuantity = randomNumber(4, 10);
+
+  const newMap = generateFilledFieldsOnMap({
+    elementQuantity: trapsQuantity,
+    rowsLength: rowsArray.length,
+    columnsLength: columnsArray.length,
+    map,
+  });
+  /** CREATE TRAP SPOTS */
+
+  return newMap;
 }
 
 export { generateMap };
