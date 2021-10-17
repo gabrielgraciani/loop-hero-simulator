@@ -59,7 +59,7 @@ function generateFilledFieldsOnMap({
   return newMap;
 }
 
-function generateMap(rows: number, columns: number): number[][] {
+function generateInitialMap(rows: number, columns: number): number[][] {
   const map: number[][] = [];
 
   if (rows === 0 || columns === 0) return map;
@@ -127,4 +127,4 @@ function generateMap(rows: number, columns: number): number[][] {
   return newMap;
 }
 
-export { generateMap };
+export { generateInitialMap };

@@ -10,7 +10,7 @@ import { tileSize } from '../config/Constants';
 
 import { useWindowSize } from '../hooks/useWindowSize';
 
-import { generateMap } from '../map/helper';
+import { generateInitialMap } from '../map/helper';
 
 interface IMapContextProps {
   map: number[][];
@@ -29,7 +29,7 @@ const MapProvider = ({ children }: IMapProviderProps): JSX.Element => {
     const horizontalSquares = Math.floor((width || 0) / tileSize);
     const verticalSquares = Math.floor((height || 0) / tileSize);
 
-    const generatedMap = generateMap(verticalSquares, horizontalSquares);
+    const generatedMap = generateInitialMap(verticalSquares, horizontalSquares);
 
     setMap(generatedMap);
   }, [width, height]);

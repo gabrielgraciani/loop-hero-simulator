@@ -1,14 +1,19 @@
 import type { AppProps } from 'next/app';
-import { GlobalStyles } from '../styles/global';
+import { Provider } from 'react-redux';
 
+import { GlobalStyles } from '../styles/global';
 import AppProvider from '../contexts';
+
+import { store } from '../redux/store';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
-    <AppProvider>
-      <Component {...pageProps} />
-      <GlobalStyles />
-    </AppProvider>
+    <Provider store={store}>
+      <AppProvider>
+        <Component {...pageProps} />
+        <GlobalStyles />
+      </AppProvider>
+    </Provider>
   );
 }
 export default MyApp;
