@@ -22,7 +22,7 @@ const SquareRowContainer = styled.div`
 const Square = styled.div`
   width: 4.8rem;
   height: 4.8rem;
-  background: ${Colors.gray};
+  background: ${Colors.light_gray};
   border: 0.1rem solid blue;
 `;
 
@@ -37,7 +37,7 @@ const DebuggerButton = styled.button`
   width: 12rem;
   background: transparent;
   border-radius: 0.4rem;
-  border: 0.2rem solid ${Colors.gray};
+  border: 0.2rem solid ${Colors.light_gray};
   font-size: 1.6rem;
   padding: 0.2rem;
 `;

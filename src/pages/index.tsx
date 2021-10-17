@@ -86,7 +86,7 @@ export default function Home(): JSX.Element {
 
       <Container>
         <SquaresContainer>
-          <Debugger active={isDebuggerActive} />
+          {isDebuggerActive && <Debugger active={isDebuggerActive} />}
           {renderMapContent()}
           {map.map(row => {
             const keyRow = uuid();

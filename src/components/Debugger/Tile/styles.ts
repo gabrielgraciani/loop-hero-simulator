@@ -23,13 +23,18 @@ const colorVariation = {
   `,
 };
 
-const Container = styled.div<IStyledTileProps>`
+const Container = styled.div.attrs((props: IStyledTileProps) => {
+  return {
+    style: {
+      left: `${(props.x * tileSize) / 10}rem`,
+      top: `${(props.y * tileSize) / 10}rem`,
+    },
+  };
+})<IStyledTileProps>`
   width: ${tileSize / 10}rem;
   height: ${tileSize / 10}rem;
   border: 2px solid;
   position: absolute;
-  left: ${({ x }) => `${(x * tileSize) / 10}rem`};
-  top: ${({ y }) => `${(y * tileSize) / 10}rem`};
   font-size: 3.2rem;
   display: flex;
   align-items: center;
