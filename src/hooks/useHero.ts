@@ -1,15 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState, useCallback } from 'react';
 
 import { attackDurationMS, heroInitialLife } from '../config/Constants';
 
 import { EDirections } from '../enum/Directions';
 import { EWalker } from '../enum/Walker';
+import { EMapFloor } from '../enum/MapFloor';
 
 import { IPosition } from '../interfaces/Position';
 import { IDirections } from '../interfaces/Directions';
 
-import { randomNumber } from '../utils/helper';
-import { useUpdatedMap } from '../contexts/UpdatedMapContext';
+import { updateMap } from '../redux/modules/updatedMap/actions';
+import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
+import { IGlobalReduxState } from '../redux/store';
+
+import {
+  handleNextPosition,
+  isValidMovement,
+  randomNumber,
+} from '../utils/helper';
 
 interface IUseHeroResponse {
   x: number;
@@ -31,7 +40,10 @@ interface IUseHeroProps {
 export const useHero = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
-  const { updateMap } = useUpdatedMap();
+  const dispatch = useDispatch();
+  const { updatedMap } = useSelector<IGlobalReduxState, IUpdatedMapState>(
+    state => state.updatedMapReducer,
+  );
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.DOWN);
@@ -42,18 +54,34 @@ export const useHero = ({
   const [isDead, setIsDead] = useState(false);
   const [life, setLife] = useState(heroInitialLife);
 
-  function handleMove(directionParam: EDirections, walker: EWalker) {
-    const { nextPosition, nextMovementIsValid } = updateMap({
-      direction: directionParam,
-      currentPosition: position,
-      walker,
-    });
+  const handleMove = useCallback(
+    (directionParam: EDirections, walker: EWalker) => {
+      const nextPosition = handleNextPosition({
+        direction: directionParam,
+        currentPosition: position,
+      });
+      const nextMovementIsValid = isValidMovement({
+        map: updatedMap,
+        nextPosition,
+        walker,
+      });
 
-    if (nextMovementIsValid) {
-      setPosition(nextPosition);
-    }
-    setDirection(directionParam);
-  }
+      if (nextMovementIsValid) {
+        const newMapState = [...updatedMap];
+
+        const currentValue = newMapState[position.y][position.x];
+
+        newMapState[position.y][position.x] = EMapFloor.FLOOR;
+        newMapState[nextPosition.y][nextPosition.x] = currentValue;
+
+        dispatch(updateMap(newMapState));
+
+        setPosition(nextPosition);
+      }
+      setDirection(directionParam);
+    },
+    [dispatch, position, updatedMap],
+  );
 
   function handleAttack() {
     setIsAttacking(true);

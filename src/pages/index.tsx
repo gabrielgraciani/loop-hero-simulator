@@ -8,6 +8,7 @@ import { tileSize } from '../config/Constants';
 import { generateInitialMap } from '../map/helper';
 
 import { Game } from '../components/Game';
+import { updateMap } from '../redux/modules/updatedMap/actions';
 
 export default function Home(): JSX.Element {
   const { width, height } = useWindowSize();
@@ -20,6 +21,7 @@ export default function Home(): JSX.Element {
 
     const generatedMap = generateInitialMap(verticalSquares, horizontalSquares);
     dispatch(generateMap(generatedMap));
+    dispatch(updateMap(generatedMap));
   }, [width, height, dispatch]);
 
   return (

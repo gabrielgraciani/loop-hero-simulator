@@ -4,7 +4,6 @@ import { IMapState } from './types';
 
 const INITIAL_STATE: IMapState = {
   initialMap: [],
-  updatedMap: [],
 };
 
 export const mapReducer: Reducer<IMapState> = (

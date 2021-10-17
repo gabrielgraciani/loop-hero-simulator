@@ -1,14 +1,18 @@
 import { ReactElement } from 'react';
 import { v4 as uuid } from 'uuid';
 
+import { useSelector } from 'react-redux';
 import { Tile } from './Tile';
 
 import { Container } from './styles';
 import { IDebuggerProps } from './types';
-import { useUpdatedMap } from '../../contexts/UpdatedMapContext';
+import { IGlobalReduxState } from '../../redux/store';
+import { IUpdatedMapState } from '../../redux/modules/updatedMap/types';
 
 export function Debugger({ active }: IDebuggerProps): JSX.Element {
-  const { updatedMap } = useUpdatedMap();
+  const { updatedMap } = useSelector<IGlobalReduxState, IUpdatedMapState>(
+    state => state.updatedMapReducer,
+  );
 
   function renderDebuggerContent() {
     const elements: ReactElement[] = [];
