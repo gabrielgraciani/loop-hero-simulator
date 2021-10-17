@@ -46,7 +46,7 @@ const UpdatedMapProvider = ({
   children,
 }: IUpdatedMapProviderProps): JSX.Element => {
   const { map } = useMap();
-  const [updatedMap, setNewMap] = useState<number[][]>(map);
+  const [updatedMap, setUpdatedMap] = useState<number[][]>(map);
 
   function updateMap({
     direction,
@@ -64,7 +64,7 @@ const UpdatedMapProvider = ({
     });
 
     if (nextMovementIsValid) {
-      setNewMap(oldMap => {
+      setUpdatedMap(oldMap => {
         const newMapState = [...oldMap];
 
         const currentValue = newMapState[currentPosition.y][currentPosition.x];
@@ -83,7 +83,7 @@ const UpdatedMapProvider = ({
   }
 
   useEffect(() => {
-    setNewMap(map);
+    setUpdatedMap(map);
   }, [map]);
 
   return (

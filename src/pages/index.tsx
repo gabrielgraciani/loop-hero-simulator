@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { Hero } from '../components/Hero';
 import { Trap } from '../components/Trap';
 import { Debugger } from '../components/Debugger';
+import { Slime } from '../components/Slime';
 
 import { useMap } from '../contexts/MapContext';
 
@@ -46,6 +47,12 @@ export default function Home(): JSX.Element {
           }
           case EMapFloor.TRAP: {
             elements.push(<Trap key={key} initialPosition={initialPosition} />);
+            break;
+          }
+          case EMapFloor.SLIME: {
+            elements.push(
+              <Slime key={key} initialPosition={initialPosition} />,
+            );
             break;
           }
 

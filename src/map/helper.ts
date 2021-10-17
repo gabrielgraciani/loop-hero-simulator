@@ -12,6 +12,7 @@ interface IGenerateRandomRowColumnResponse {
 }
 
 interface IGenerateFilledFieldsOnMapProps {
+  elementToBeRender: EMapFloor;
   elementQuantity: number;
   rowsLength: number;
   columnsLength: number;
@@ -34,6 +35,7 @@ function generateRandomRowColumn({
 }
 
 function generateFilledFieldsOnMap({
+  elementToBeRender,
   elementQuantity,
   rowsLength,
   columnsLength,
@@ -50,7 +52,7 @@ function generateFilledFieldsOnMap({
       newMap[randomElementRow][randomElementColumn] === EMapFloor.FLOOR;
 
     if (isLocalValid) {
-      newMap[randomElementRow][randomElementColumn] = EMapFloor.TRAP;
+      newMap[randomElementRow][randomElementColumn] = elementToBeRender;
     }
   });
 
@@ -101,13 +103,26 @@ function generateMap(rows: number, columns: number): number[][] {
   /** CREATE TRAP SPOTS */
   const trapsQuantity = randomNumber({ min: 4, max: 10 });
 
-  const newMap = generateFilledFieldsOnMap({
+  generateFilledFieldsOnMap({
+    elementToBeRender: EMapFloor.TRAP,
     elementQuantity: trapsQuantity,
     rowsLength: rowsArray.length,
     columnsLength: columnsArray.length,
     map,
   });
   /** CREATE TRAP SPOTS */
+
+  /** CREATE SLIME SPOTS */
+  const slimesQuantity = randomNumber({ min: 3, max: 7 });
+
+  const newMap = generateFilledFieldsOnMap({
+    elementToBeRender: EMapFloor.SLIME,
+    elementQuantity: slimesQuantity,
+    rowsLength: rowsArray.length,
+    columnsLength: columnsArray.length,
+    map,
+  });
+  /** CREATE SLIME SPOTS */
 
   return newMap;
 }
