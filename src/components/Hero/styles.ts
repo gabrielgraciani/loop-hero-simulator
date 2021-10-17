@@ -73,7 +73,6 @@ const Container = styled.div.attrs((props: IStyledHeroProps) => {
   width: ${`${tileSize / 10}rem`};
   height: ${`${tileSize / 10}rem`};
   position: absolute;
-  transition: all 0.3s ease;
   z-index: 9;
   transform: scale(1.5);
 

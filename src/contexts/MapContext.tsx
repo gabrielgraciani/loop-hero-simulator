@@ -5,8 +5,11 @@ import {
   useContext,
   useEffect,
 } from 'react';
+
 import { tileSize } from '../config/Constants';
+
 import { useWindowSize } from '../hooks/useWindowSize';
+
 import { generateMap } from '../map/helper';
 
 interface IMapContextProps {
@@ -20,7 +23,6 @@ const MapContext = createContext<IMapContextProps>({} as IMapContextProps);
 
 const MapProvider = ({ children }: IMapProviderProps): JSX.Element => {
   const { width, height } = useWindowSize();
-
   const [map, setMap] = useState<number[][]>([]);
 
   useEffect(() => {

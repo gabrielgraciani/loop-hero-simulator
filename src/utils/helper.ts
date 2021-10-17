@@ -10,7 +10,7 @@ interface IRandomNumberProps {
 
 interface IHandleNextPositionProps {
   direction: EDirections;
-  position: IPosition;
+  currentPosition: IPosition;
 }
 
 interface IGetValidMovesProps {
@@ -29,23 +29,23 @@ function randomNumber({ min, max }: IRandomNumberProps): number {
 
 function handleNextPosition({
   direction,
-  position,
+  currentPosition,
 }: IHandleNextPositionProps): IPosition {
   switch (direction) {
     case EDirections.LEFT:
-      return { x: position.x - 1, y: position.y };
+      return { x: currentPosition.x - 1, y: currentPosition.y };
 
     case EDirections.RIGHT:
-      return { x: position.x + 1, y: position.y };
+      return { x: currentPosition.x + 1, y: currentPosition.y };
 
     case EDirections.DOWN:
-      return { x: position.x, y: position.y + 1 };
+      return { x: currentPosition.x, y: currentPosition.y + 1 };
 
     case EDirections.UP:
-      return { x: position.x, y: position.y - 1 };
+      return { x: currentPosition.x, y: currentPosition.y - 1 };
 
     default:
-      return { x: position.x, y: position.y };
+      return { x: currentPosition.x, y: currentPosition.y };
   }
 }
 

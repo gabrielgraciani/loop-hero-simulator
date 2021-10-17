@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { useMap } from '../contexts/MapContext';
-
 import { attackDurationMS, heroInitialLife } from '../config/Constants';
 
 import { EDirections } from '../enum/Directions';
@@ -10,11 +8,8 @@ import { EWalker } from '../enum/Walker';
 import { IPosition } from '../interfaces/Position';
 import { IDirections } from '../interfaces/Directions';
 
-import {
-  randomNumber,
-  handleNextPosition,
-  isValidMovement,
-} from '../utils/helper';
+import { randomNumber } from '../utils/helper';
+import { useUpdatedMap } from '../contexts/UpdatedMapContext';
 
 interface IUseHeroResponse {
   x: number;
@@ -36,7 +31,7 @@ interface IUseHeroProps {
 export const useHero = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
-  const { map } = useMap();
+  const { updateMap } = useUpdatedMap();
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.DOWN);
@@ -48,11 +43,11 @@ export const useHero = ({
   const [life, setLife] = useState(heroInitialLife);
 
   function handleMove(directionParam: EDirections, walker: EWalker) {
-    const nextPosition = handleNextPosition({
+    const { nextPosition, nextMovementIsValid } = updateMap({
       direction: directionParam,
-      position,
+      currentPosition: position,
+      walker,
     });
-    const nextMovementIsValid = isValidMovement({ map, nextPosition, walker });
 
     if (nextMovementIsValid) {
       setPosition(nextPosition);
