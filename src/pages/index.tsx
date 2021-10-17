@@ -1,9 +1,10 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { Hero } from '../components/Hero';
 import { Trap } from '../components/Trap';
+import { Debugger } from '../components/Debugger';
 
 import { useMap } from '../contexts/MapContext';
 
@@ -14,13 +15,23 @@ import {
   SquaresContainer,
   SquareRowContainer,
   Square,
+  DebuggerButton,
+  Header,
+  Title,
+  Author,
+  TextContainer,
 } from './Home.styles';
 
 export default function Home(): JSX.Element {
   const { map } = useMap();
+  const [isDebuggerActive, setIsDebuggerActive] = useState(false);
+
+  function handleChangeDebuggerActive() {
+    setIsDebuggerActive(!isDebuggerActive);
+  }
 
   function renderMapContent() {
-    const array: ReactElement[] = [];
+    const elements: ReactElement[] = [];
 
     map.forEach((row, rowIndex) => {
       row.forEach((column, columnIndex) => {
@@ -30,11 +41,11 @@ export default function Home(): JSX.Element {
 
         switch (tileValue) {
           case EMapFloor.HERO: {
-            array.push(<Hero key={key} initialPosition={initialPosition} />);
+            elements.push(<Hero key={key} initialPosition={initialPosition} />);
             break;
           }
           case EMapFloor.TRAP: {
-            array.push(<Trap key={key} initialPosition={initialPosition} />);
+            elements.push(<Trap key={key} initialPosition={initialPosition} />);
             break;
           }
 
@@ -45,7 +56,7 @@ export default function Home(): JSX.Element {
       });
     });
 
-    return array;
+    return elements;
   }
 
   return (
@@ -54,8 +65,28 @@ export default function Home(): JSX.Element {
         <title>Walking Simulator Game</title>
       </Head>
 
+      <Header>
+        <TextContainer>
+          <Title>Walk Simulator Game</Title>
+          <Author>
+            made by{' '}
+            <a
+              href="https://www.linkedin.com/in/gabriel-thomaz-graciani-98400b166/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <strong>Gabriel Thomaz Graciani</strong>
+            </a>
+          </Author>
+        </TextContainer>
+        <DebuggerButton type="button" onClick={handleChangeDebuggerActive}>
+          Debugger
+        </DebuggerButton>
+      </Header>
+
       <Container>
         <SquaresContainer>
+          <Debugger active={isDebuggerActive} />
           {renderMapContent()}
           {map.map(row => {
             const keyRow = uuid();
