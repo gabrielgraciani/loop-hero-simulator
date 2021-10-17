@@ -8,15 +8,15 @@ import { IDebuggerProps } from './types';
 import { useUpdatedMap } from '../../contexts/UpdatedMapContext';
 
 export function Debugger({ active }: IDebuggerProps): JSX.Element {
-  const { newMap } = useUpdatedMap();
+  const { updatedMap } = useUpdatedMap();
 
   function renderDebuggerContent() {
     const elements: ReactElement[] = [];
 
-    newMap.forEach((row, rowIndex) => {
+    updatedMap.forEach((row, rowIndex) => {
       row.forEach((column, columnIndex) => {
         const position = { y: rowIndex, x: columnIndex };
-        const value = newMap[rowIndex][columnIndex];
+        const value = updatedMap[rowIndex][columnIndex];
         const key = `${row}-${column}-${uuid()}`;
 
         elements.push(<Tile key={key} position={position} value={value} />);

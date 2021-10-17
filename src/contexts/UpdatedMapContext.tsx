@@ -27,7 +27,7 @@ interface IUpdateMapResponse {
 }
 
 interface IUpdatedMapContextProps {
-  newMap: number[][];
+  updatedMap: number[][];
   updateMap: ({
     direction,
     currentPosition,
@@ -46,7 +46,7 @@ const UpdatedMapProvider = ({
   children,
 }: IUpdatedMapProviderProps): JSX.Element => {
   const { map } = useMap();
-  const [newMap, setNewMap] = useState<number[][]>(map);
+  const [updatedMap, setNewMap] = useState<number[][]>(map);
 
   function updateMap({
     direction,
@@ -58,7 +58,7 @@ const UpdatedMapProvider = ({
       currentPosition,
     });
     const nextMovementIsValid = isValidMovement({
-      map: newMap,
+      map: updatedMap,
       nextPosition,
       walker,
     });
@@ -87,7 +87,7 @@ const UpdatedMapProvider = ({
   }, [map]);
 
   return (
-    <UpdatedMapContext.Provider value={{ newMap, updateMap }}>
+    <UpdatedMapContext.Provider value={{ updatedMap, updateMap }}>
       {children}
     </UpdatedMapContext.Provider>
   );
