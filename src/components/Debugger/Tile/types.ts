@@ -1,7 +1,9 @@
 import { EMapFloor } from '../../../enum/MapFloor';
 
+import { IPosition } from '../../../interfaces/Position';
+
 export interface ITileProps {
-  position: { x: number; y: number };
+  position: IPosition;
   value: number;
 }
 

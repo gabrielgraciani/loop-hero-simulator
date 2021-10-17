@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react';
 
-import { DirectionsEnum } from '../enum/Directions';
+import { useMap } from '../contexts/MapContext';
 
+import { attackDurationMS, heroInitialLife } from '../config/Constants';
+
+import { EDirections } from '../enum/Directions';
+import { EWalker } from '../enum/Walker';
+
+import { IPosition } from '../interfaces/Position';
 import { IDirections } from '../interfaces/Directions';
 
-import { randomNumber } from '../utils/helper';
-import { attackDurationMS, heroInitialLife } from '../config/Constants';
-import { useMap } from '../contexts/MapContext';
+import {
+  randomNumber,
+  handleNextPosition,
+  isValidMovement,
+} from '../utils/helper';
 
 interface IUseHeroResponse {
   x: number;
   y: number;
   direction: IDirections;
-  moveLeft: () => void;
-  moveRight: () => void;
-  moveDown: () => void;
-  moveUp: () => void;
+  handleMove: (directionParam: EDirections, walker: EWalker) => void;
   handleAttack: () => void;
   isAttacking: boolean;
   isBlocked: boolean;
@@ -25,12 +30,7 @@ interface IUseHeroResponse {
 }
 
 interface IUseHeroProps {
-  initialPosition: { x: number; y: number };
-}
-
-interface ICanMoveProps {
-  x: number;
-  y: number;
+  initialPosition: IPosition;
 }
 
 export const useHero = ({
@@ -39,7 +39,7 @@ export const useHero = ({
   const { map } = useMap();
 
   const [position, setPosition] = useState(initialPosition);
-  const [direction, setDirection] = useState<IDirections>(DirectionsEnum.DOWN);
+  const [direction, setDirection] = useState<IDirections>(EDirections.DOWN);
   const [isAttacking, setIsAttacking] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
   // TODO remove this eslint disable rule when i make the death function
@@ -47,43 +47,17 @@ export const useHero = ({
   const [isDead, setIsDead] = useState(false);
   const [life, setLife] = useState(heroInitialLife);
 
-  function canMove({ x, y }: ICanMoveProps) {
-    if (map?.length && map[y] !== undefined && map[y][x] !== undefined) {
-      return map[y][x] !== 1;
+  function handleMove(directionParam: EDirections, walker: EWalker) {
+    const nextPosition = handleNextPosition({
+      direction: directionParam,
+      position,
+    });
+    const nextMovementIsValid = isValidMovement({ map, nextPosition, walker });
+
+    if (nextMovementIsValid) {
+      setPosition(nextPosition);
     }
-    return false;
-  }
-
-  function moveLeft() {
-    setDirection(DirectionsEnum.LEFT);
-    setPosition(pos => ({
-      x: canMove({ x: pos.x - 1, y: pos.y }) ? pos.x - 1 : pos.x,
-      y: pos.y,
-    }));
-  }
-
-  function moveRight() {
-    setDirection(DirectionsEnum.RIGHT);
-    setPosition(pos => ({
-      x: canMove({ x: pos.x + 1, y: pos.y }) ? pos.x + 1 : pos.x,
-      y: pos.y,
-    }));
-  }
-
-  function moveDown() {
-    setDirection(DirectionsEnum.DOWN);
-    setPosition(pos => ({
-      x: pos.x,
-      y: canMove({ x: pos.x, y: pos.y + 1 }) ? pos.y + 1 : pos.y,
-    }));
-  }
-
-  function moveUp() {
-    setDirection(DirectionsEnum.UP);
-    setPosition(pos => ({
-      x: pos.x,
-      y: canMove({ x: pos.x, y: pos.y - 1 }) ? pos.y - 1 : pos.y,
-    }));
+    setDirection(directionParam);
   }
 
   function handleAttack() {
@@ -92,7 +66,7 @@ export const useHero = ({
   }
 
   function handleReceiveDamage() {
-    const randomDamage = randomNumber(1, 50);
+    const randomDamage = randomNumber({ min: 1, max: 50 });
 
     setLife(oldLife => {
       const result = oldLife - randomDamage;
@@ -119,10 +93,7 @@ export const useHero = ({
     x: position.x,
     y: position.y,
     direction,
-    moveLeft,
-    moveRight,
-    moveDown,
-    moveUp,
+    handleMove,
     handleAttack,
     isAttacking,
     isBlocked,

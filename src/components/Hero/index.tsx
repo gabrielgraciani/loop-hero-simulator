@@ -5,6 +5,8 @@ import { KeyCodes } from '../../enum/KeyCodes';
 
 import { Container, LifeContainer } from './styles';
 import { IHeroProps } from './types';
+import { EDirections } from '../../enum/Directions';
+import { EWalker } from '../../enum/Walker';
 
 export function Hero({ initialPosition }: IHeroProps): JSX.Element {
   const {
@@ -12,14 +14,11 @@ export function Hero({ initialPosition }: IHeroProps): JSX.Element {
     isAttacking,
     x,
     y,
-    moveUp,
-    moveRight,
-    moveLeft,
-    moveDown,
     handleAttack,
     direction,
     isDead,
     life,
+    handleMove,
   } = useHero({ initialPosition });
 
   const handleKeyDown = useCallback(
@@ -27,25 +26,27 @@ export function Hero({ initialPosition }: IHeroProps): JSX.Element {
       switch (event.code) {
         case KeyCodes.ARROW_UP:
         case KeyCodes.KEY_W: {
-          moveUp();
+          handleMove(EDirections.UP, EWalker.HERO);
           break;
         }
 
         case KeyCodes.ARROW_DOWN:
         case KeyCodes.KEY_S: {
-          moveDown();
+          handleMove(EDirections.DOWN, EWalker.HERO);
           break;
         }
 
         case KeyCodes.ARROW_LEFT:
         case KeyCodes.KEY_A: {
-          moveLeft();
+          handleMove(EDirections.LEFT, EWalker.HERO);
+
           break;
         }
 
         case KeyCodes.ARROW_RIGHT:
         case KeyCodes.KEY_D: {
-          moveRight();
+          handleMove(EDirections.RIGHT, EWalker.HERO);
+
           break;
         }
 
@@ -59,7 +60,7 @@ export function Hero({ initialPosition }: IHeroProps): JSX.Element {
         }
       }
     },
-    [handleAttack, moveDown, moveLeft, moveRight, moveUp],
+    [handleAttack, handleMove],
   );
 
   useEffect(() => {

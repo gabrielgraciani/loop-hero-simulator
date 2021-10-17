@@ -1,7 +1,8 @@
+import { IPosition } from '../../interfaces/Position';
 import { IDirections } from '../../interfaces/Directions';
 
 export interface IHeroProps {
-  initialPosition: { x: number; y: number };
+  initialPosition: IPosition;
 }
 
 export interface IStyledHeroProps {

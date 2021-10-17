@@ -1,5 +1,79 @@
-function randomNumber(min: number, max: number): number {
+import { EWalker } from '../enum/Walker';
+import { IPosition } from '../interfaces/Position';
+import { EMapFloor } from '../enum/MapFloor';
+import { EDirections } from '../enum/Directions';
+
+interface IRandomNumberProps {
+  min: number;
+  max: number;
+}
+
+interface IHandleNextPositionProps {
+  direction: EDirections;
+  position: IPosition;
+}
+
+interface IGetValidMovesProps {
+  value: number;
+}
+
+interface IIsValidMovement {
+  map: number[][];
+  nextPosition: IPosition;
+  walker: EWalker;
+}
+
+function randomNumber({ min, max }: IRandomNumberProps): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export { randomNumber };
+function handleNextPosition({
+  direction,
+  position,
+}: IHandleNextPositionProps): IPosition {
+  switch (direction) {
+    case EDirections.LEFT:
+      return { x: position.x - 1, y: position.y };
+
+    case EDirections.RIGHT:
+      return { x: position.x + 1, y: position.y };
+
+    case EDirections.DOWN:
+      return { x: position.x, y: position.y + 1 };
+
+    case EDirections.UP:
+      return { x: position.x, y: position.y - 1 };
+
+    default:
+      return { x: position.x, y: position.y };
+  }
+}
+
+function getHeroValidMoves({ value }: IGetValidMovesProps) {
+  return (
+    value === EMapFloor.FLOOR ||
+    value === EMapFloor.TRAP ||
+    value === EMapFloor.HERO
+  );
+}
+
+function getEnemyValidMoves({ value }: IGetValidMovesProps) {
+  return value === EMapFloor.FLOOR;
+}
+
+function isValidMovement({
+  map,
+  nextPosition,
+  walker,
+}: IIsValidMovement): boolean {
+  const mapValue = map[nextPosition.y][nextPosition.x];
+
+  const result =
+    walker === EWalker.HERO
+      ? getHeroValidMoves({ value: mapValue })
+      : getEnemyValidMoves({ value: mapValue });
+
+  return result;
+}
+
+export { randomNumber, handleNextPosition, isValidMovement };

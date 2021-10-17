@@ -23,9 +23,9 @@ function generateRandomRowColumn({
   columnsLength,
 }: IGenerateRandomRowColumnProps): IGenerateRandomRowColumnResponse {
   // start in one and finish less 2 to the number of the row doesn't be an wall
-  const randomRow = randomNumber(1, rowsLength - 2);
+  const randomRow = randomNumber({ min: 1, max: rowsLength - 2 });
   // start in one and finish less 2 to the number of the column doesn't be an wall
-  const randomColumn = randomNumber(1, columnsLength - 2);
+  const randomColumn = randomNumber({ min: 1, max: columnsLength - 2 });
 
   return {
     rowIndex: randomRow,
@@ -99,7 +99,7 @@ function generateMap(rows: number, columns: number): number[][] {
   /** CREATE HERO SPOT */
 
   /** CREATE TRAP SPOTS */
-  const trapsQuantity = randomNumber(4, 10);
+  const trapsQuantity = randomNumber({ min: 4, max: 10 });
 
   const newMap = generateFilledFieldsOnMap({
     elementQuantity: trapsQuantity,

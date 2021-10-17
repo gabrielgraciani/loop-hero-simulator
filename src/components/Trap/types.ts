@@ -1,5 +1,7 @@
+import { IPosition } from '../../interfaces/Position';
+
 export interface ITrapProps {
-  initialPosition: { x: number; y: number };
+  initialPosition: IPosition;
 }
 
 export interface IStyledTrapProps {
