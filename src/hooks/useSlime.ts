@@ -1,16 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useCallback } from 'react';
+import { EMapFloor } from '../enum/MapFloor';
 
-import { attackDurationMS, heroInitialLife } from '../config/Constants';
+import {
+  attackDurationMS,
+  deathDurationMS,
+  enemyMoveDurationMS,
+  heroInitialLife,
+} from '../config/Constants';
 
 import { EDirections } from '../enum/Directions';
 import { EWalker } from '../enum/Walker';
-import { EMapFloor } from '../enum/MapFloor';
 
 import { IPosition } from '../interfaces/Position';
 import { IDirections } from '../interfaces/Directions';
 
-import { updateMap } from '../redux/modules/updatedMap/actions';
+import {
+  setAttackPosition,
+  updateMap,
+} from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
 
@@ -33,6 +41,7 @@ interface IUseHeroResponse {
   isDead: boolean;
   life: number;
   handleReceiveDamage: () => void;
+  isAfterDeathAnimation: boolean;
 }
 
 interface IUseHeroProps {
@@ -43,18 +52,18 @@ export const useSlime = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
   const dispatch = useDispatch();
-  const { updatedMap } = useSelector<IGlobalReduxState, IUpdatedMapState>(
-    state => state.updatedMapReducer,
-  );
+  const { updatedMap, attackPosition } = useSelector<
+    IGlobalReduxState,
+    IUpdatedMapState
+  >(state => state.updatedMapReducer);
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.LEFT);
   const [isAttacking, setIsAttacking] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
-  // TODO remove this eslint disable rule when i make the death function
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isDead, setIsDead] = useState(false);
   const [life, setLife] = useState(heroInitialLife);
+  const [isAfterDeathAnimation, setIsAfterDeathAnimation] = useState(false);
 
   const handleMove = useCallback(() => {
     const random = Math.floor(Math.random() * 4);
@@ -95,20 +104,30 @@ export const useSlime = ({
     setIsBlocked(true);
   }
 
-  function handleReceiveDamage() {
+  const handleReceiveDamage = useCallback(() => {
     const randomDamage = randomNumber({ min: 1, max: 50 });
+    dispatch(setAttackPosition(undefined));
 
     setLife(oldLife => {
       const result = oldLife - randomDamage;
       if (result <= 0) {
         setIsDead(true);
         setIsBlocked(true);
+
+        setTimeout(() => {
+          const newMap = [...updatedMap];
+
+          newMap[position.y][position.x] = EMapFloor.FLOOR;
+
+          dispatch(updateMap(newMap));
+          setIsAfterDeathAnimation(true);
+        }, deathDurationMS);
         return 0;
       }
 
       return result;
     });
-  }
+  }, [dispatch, position.x, position.y, updatedMap]);
 
   useEffect(() => {
     if (isAttacking) {
@@ -121,7 +140,15 @@ export const useSlime = ({
 
   useInterval(() => {
     handleMove();
-  }, 3000);
+  }, enemyMoveDurationMS);
+
+  useEffect(() => {
+    if (attackPosition && !isDead) {
+      if (attackPosition.x === position.x && attackPosition.y === position.y) {
+        handleReceiveDamage();
+      }
+    }
+  }, [attackPosition, handleReceiveDamage, position, isDead]);
 
   return {
     x: position.x,
@@ -134,5 +161,6 @@ export const useSlime = ({
     isDead,
     life,
     handleReceiveDamage,
+    isAfterDeathAnimation,
   };
 };

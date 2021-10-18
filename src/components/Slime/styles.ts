@@ -85,6 +85,8 @@ const Container = styled.div.attrs((props: IStyledSlimeProps) => {
   height: ${`${tileSize / 10}rem`};
   position: absolute;
   z-index: 9;
+  display: ${({ isAfterDeathAnimation }) =>
+    isAfterDeathAnimation ? 'none' : 'block'};
 
   ${props => backgroundAnimation(props.isAttacking, props.isDead)}
 `;

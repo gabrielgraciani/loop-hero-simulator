@@ -10,7 +10,10 @@ import { EMapFloor } from '../enum/MapFloor';
 import { IPosition } from '../interfaces/Position';
 import { IDirections } from '../interfaces/Directions';
 
-import { updateMap } from '../redux/modules/updatedMap/actions';
+import {
+  updateMap,
+  setAttackPosition,
+} from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
 
@@ -86,6 +89,39 @@ export const useHero = ({
   function handleAttack() {
     setIsAttacking(true);
     setIsBlocked(true);
+
+    let testeY = position.y;
+    let testeX = position.x;
+
+    switch (direction) {
+      case EDirections.DOWN: {
+        testeY += 1;
+        break;
+      }
+      case EDirections.UP: {
+        testeY -= 1;
+        break;
+      }
+      case EDirections.LEFT: {
+        testeX -= 1;
+        break;
+      }
+      case EDirections.RIGHT: {
+        testeX += 1;
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+
+    // console.log('hero position', position);
+    // console.log('positio nova', { testeY, testeX });
+    // console.log('updatedMap', updatedMap);
+    const attackPosition = { x: testeX, y: testeY };
+
+    dispatch(setAttackPosition(attackPosition));
   }
 
   function handleReceiveDamage() {

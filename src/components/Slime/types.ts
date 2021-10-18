@@ -11,6 +11,7 @@ export interface IStyledSlimeProps {
   x: number;
   y: number;
   isDead: boolean;
+  isAfterDeathAnimation: boolean;
 }
 
 export interface IStyledLifeProps {
