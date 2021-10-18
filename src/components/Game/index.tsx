@@ -32,6 +32,10 @@ export const Game = (): JSX.Element => {
 
   const isLocalEnvironment =
     process.env.NEXT_PUBLIC_APPLICATION_ENV === 'local';
+  console.log(
+    'process.env.NEXT_PUBLIC_APPLICATION_ENV',
+    process.env.NEXT_PUBLIC_APPLICATION_ENV,
+  );
 
   function handleChangeDebuggerActive() {
     setIsDebuggerActive(!isDebuggerActive);
