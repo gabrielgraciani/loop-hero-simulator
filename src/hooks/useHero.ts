@@ -105,11 +105,15 @@ export const useHero = ({
 
   useEffect(() => {
     if (isAttacking) {
-      setTimeout(() => {
+      const id = setTimeout(() => {
         setIsAttacking(false);
         setIsBlocked(false);
       }, attackDurationMS);
+
+      return () => clearTimeout(id);
     }
+
+    return undefined;
   }, [isAttacking]);
 
   return {

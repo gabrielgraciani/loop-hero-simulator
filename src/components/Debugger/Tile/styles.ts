@@ -1,25 +1,30 @@
 import styled, { css } from 'styled-components';
+import { EMapFloor } from '../../../enum/MapFloor';
 
 import { tileSize } from '../../../config/Constants';
 
 import { IStyledTileProps } from './types';
 
 const colorVariation = {
-  0: css`
+  [EMapFloor.FLOOR]: css`
     color: darkgrey;
     border-color: darkgrey;
   `,
-  1: css`
+  [EMapFloor.WALL]: css`
     color: yellow;
     border-color: yellow;
   `,
-  2: css`
+  [EMapFloor.HERO]: css`
     color: magenta;
     border-color: magenta;
   `,
-  3: css`
+  [EMapFloor.TRAP]: css`
     color: chartreuse;
     border-color: chartreuse;
+  `,
+  [EMapFloor.SLIME]: css`
+    color: red;
+    border-color: red;
   `,
 };
 

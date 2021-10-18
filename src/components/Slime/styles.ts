@@ -91,7 +91,7 @@ const Container = styled.div.attrs((props: IStyledSlimeProps) => {
 
 const LifeContainer = styled.div<IStyledLifeProps>`
   position: absolute;
-  bottom: -1rem;
+  bottom: -2rem;
   left: 50%;
   transform: translate(-50%, 0);
 

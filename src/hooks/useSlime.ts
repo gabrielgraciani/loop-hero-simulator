@@ -121,7 +121,7 @@ export const useSlime = ({
 
   useInterval(() => {
     handleMove();
-  }, 2000);
+  }, 3000);
 
   return {
     x: position.x,
