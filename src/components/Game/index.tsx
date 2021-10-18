@@ -92,7 +92,7 @@ export const Game = (): JSX.Element => {
 
       <Container>
         <SquaresContainer>
-          {isDebuggerActive && <Debugger active={isDebuggerActive} />}
+          {isDebuggerActive && <Debugger />}
           {renderMapContent()}
           {initialMap.map(row => {
             const keyRow = uuid();

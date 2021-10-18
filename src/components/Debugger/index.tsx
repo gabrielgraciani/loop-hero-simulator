@@ -5,11 +5,10 @@ import { useSelector } from 'react-redux';
 import { Tile } from './Tile';
 
 import { Container } from './styles';
-import { IDebuggerProps } from './types';
 import { IGlobalReduxState } from '../../redux/store';
 import { IUpdatedMapState } from '../../redux/modules/updatedMap/types';
 
-export function Debugger({ active }: IDebuggerProps): JSX.Element {
+export function Debugger(): JSX.Element {
   const { updatedMap } = useSelector<IGlobalReduxState, IUpdatedMapState>(
     state => state.updatedMapReducer,
   );
@@ -30,5 +29,5 @@ export function Debugger({ active }: IDebuggerProps): JSX.Element {
     return elements;
   }
 
-  return active ? <Container>{renderDebuggerContent()}</Container> : <></>;
+  return <Container>{renderDebuggerContent()}</Container>;
 }
