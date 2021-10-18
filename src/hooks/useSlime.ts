@@ -24,7 +24,7 @@ interface IUseHeroResponse {
   x: number;
   y: number;
   direction: IDirections;
-  handleMove: (directionParam: EDirections, walker: EWalker) => void;
+  handleMove: () => void;
   handleAttack: () => void;
   isAttacking: boolean;
   isBlocked: boolean;
@@ -118,11 +118,12 @@ export const useSlime = ({
   }, [isAttacking]);
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalID = setInterval(() => {
       handleMove();
     }, 3000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    return () => clearInterval(intervalID);
+  }, [handleMove]);
 
   return {
     x: position.x,
