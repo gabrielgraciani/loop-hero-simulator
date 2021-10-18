@@ -30,7 +30,8 @@ export const Game = (): JSX.Element => {
   );
   const [isDebuggerActive, setIsDebuggerActive] = useState(false);
 
-  const isDevelopmentEnvironment = process.env.NODE_ENV === 'development';
+  const isLocalEnvironment =
+    process.env.NEXT_PUBLIC_APPLICATION_ENV === 'local';
 
   function handleChangeDebuggerActive() {
     setIsDebuggerActive(!isDebuggerActive);
@@ -94,7 +95,7 @@ export const Game = (): JSX.Element => {
 
       <Container>
         <SquaresContainer>
-          {isDebuggerActive && isDevelopmentEnvironment && <Debugger />}
+          {isDebuggerActive && isLocalEnvironment && <Debugger />}
           {renderMapContent()}
           {initialMap.map(row => {
             const keyRow = uuid();
