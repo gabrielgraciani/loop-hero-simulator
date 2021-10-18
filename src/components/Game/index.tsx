@@ -32,10 +32,6 @@ export const Game = (): JSX.Element => {
 
   const isLocalEnvironment =
     process.env.NEXT_PUBLIC_APPLICATION_ENV === 'local';
-  console.log(
-    'process.env.NEXT_PUBLIC_APPLICATION_ENV',
-    process.env.NEXT_PUBLIC_APPLICATION_ENV,
-  );
 
   function handleChangeDebuggerActive() {
     setIsDebuggerActive(!isDebuggerActive);
@@ -92,9 +88,11 @@ export const Game = (): JSX.Element => {
             </a>
           </Author>
         </TextContainer>
-        <DebuggerButton type="button" onClick={handleChangeDebuggerActive}>
-          Debugger
-        </DebuggerButton>
+        {isLocalEnvironment && (
+          <DebuggerButton type="button" onClick={handleChangeDebuggerActive}>
+            Debugger
+          </DebuggerButton>
+        )}
       </Header>
 
       <Container>
