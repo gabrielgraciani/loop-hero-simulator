@@ -14,6 +14,8 @@ import { updateMap } from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
 
+import useInterval from './useInterval';
+
 import {
   handleNextPosition,
   isValidMovement,
@@ -117,13 +119,9 @@ export const useSlime = ({
     }
   }, [isAttacking]);
 
-  useEffect(() => {
-    const intervalID = setInterval(() => {
-      handleMove();
-    }, 3000);
-
-    return () => clearInterval(intervalID);
-  }, [handleMove]);
+  useInterval(() => {
+    handleMove();
+  }, 2000);
 
   return {
     x: position.x,

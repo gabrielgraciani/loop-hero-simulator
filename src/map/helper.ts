@@ -113,7 +113,7 @@ function generateInitialMap(rows: number, columns: number): number[][] {
   /** CREATE TRAP SPOTS */
 
   /** CREATE SLIME SPOTS */
-  const slimesQuantity = randomNumber({ min: 1, max: 1 });
+  const slimesQuantity = randomNumber({ min: 4, max: 8 });
 
   const newMap = generateFilledFieldsOnMap({
     elementToBeRender: EMapFloor.SLIME,
