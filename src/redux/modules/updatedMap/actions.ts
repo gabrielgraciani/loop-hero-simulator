@@ -7,10 +7,10 @@ interface IGenerateMapResponse {
   };
 }
 
-interface ISetAttackPosition {
+interface ISetHeroAttackPosition {
   type: string;
   payload: {
-    attackPosition?: IPosition;
+    heroAttackPosition?: IPosition;
   };
 }
 
@@ -22,10 +22,10 @@ export function updateMap(newMap: number[][]): IGenerateMapResponse {
 }
 
 export function setAttackPosition(
-  attackPosition?: IPosition,
-): ISetAttackPosition {
+  heroAttackPosition?: IPosition,
+): ISetHeroAttackPosition {
   return {
-    type: 'SET_ATTACK_POSITION',
-    payload: { attackPosition },
+    type: 'SET_HERO_ATTACK_POSITION',
+    payload: { heroAttackPosition },
   };
 }

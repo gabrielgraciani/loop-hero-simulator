@@ -4,7 +4,7 @@ import { IUpdatedMapState } from './types';
 
 const INITIAL_STATE: IUpdatedMapState = {
   updatedMap: [],
-  attackPosition: undefined,
+  heroAttackPosition: undefined,
 };
 
 export const updatedMapReducer: Reducer<IUpdatedMapState> = (
@@ -21,12 +21,12 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
       };
     }
 
-    case 'SET_ATTACK_POSITION': {
-      const { attackPosition } = action.payload;
+    case 'SET_HERO_ATTACK_POSITION': {
+      const { heroAttackPosition } = action.payload;
 
       return {
         ...state,
-        attackPosition,
+        heroAttackPosition,
       };
     }
 

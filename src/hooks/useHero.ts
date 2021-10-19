@@ -52,8 +52,6 @@ export const useHero = ({
   const [direction, setDirection] = useState<IDirections>(EDirections.DOWN);
   const [isAttacking, setIsAttacking] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
-  // TODO remove this eslint disable rule when i make the death function
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isDead, setIsDead] = useState(false);
   const [life, setLife] = useState(heroInitialLife);
 
@@ -90,24 +88,24 @@ export const useHero = ({
     setIsAttacking(true);
     setIsBlocked(true);
 
-    let testeY = position.y;
-    let testeX = position.x;
+    let heroAttackPositionY = position.y;
+    let heroAttackPositionX = position.x;
 
     switch (direction) {
       case EDirections.DOWN: {
-        testeY += 1;
+        heroAttackPositionY += 1;
         break;
       }
       case EDirections.UP: {
-        testeY -= 1;
+        heroAttackPositionY -= 1;
         break;
       }
       case EDirections.LEFT: {
-        testeX -= 1;
+        heroAttackPositionX -= 1;
         break;
       }
       case EDirections.RIGHT: {
-        testeX += 1;
+        heroAttackPositionX += 1;
         break;
       }
 
@@ -116,10 +114,7 @@ export const useHero = ({
       }
     }
 
-    // console.log('hero position', position);
-    // console.log('positio nova', { testeY, testeX });
-    // console.log('updatedMap', updatedMap);
-    const attackPosition = { x: testeX, y: testeY };
+    const attackPosition = { x: heroAttackPositionX, y: heroAttackPositionY };
 
     dispatch(setAttackPosition(attackPosition));
   }

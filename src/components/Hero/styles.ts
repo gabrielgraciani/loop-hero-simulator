@@ -75,15 +75,16 @@ const Container = styled.div.attrs((props: IStyledHeroProps) => {
   position: absolute;
   z-index: 99;
   transform: scale(1.5);
+  transition: all 0.3s ease;
 
   ${props => backgroundAnimation(props.isAttacking, props.isDead)}
 `;
 
 const LifeContainer = styled.div<IStyledLifeProps>`
   position: absolute;
-  bottom: -1rem;
+  bottom: -0.9rem;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0) scale(0.75);
 
   width: calc(100% + 4rem);
   height: 1.6rem;

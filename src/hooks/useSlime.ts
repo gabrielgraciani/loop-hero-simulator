@@ -11,6 +11,7 @@ import {
 
 import { EDirections } from '../enum/Directions';
 import { EWalker } from '../enum/Walker';
+import { EEnemeyAction } from '../enum/EnemyAction';
 
 import { IPosition } from '../interfaces/Position';
 import { IDirections } from '../interfaces/Directions';
@@ -52,7 +53,7 @@ export const useSlime = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
   const dispatch = useDispatch();
-  const { updatedMap, attackPosition } = useSelector<
+  const { updatedMap, heroAttackPosition } = useSelector<
     IGlobalReduxState,
     IUpdatedMapState
   >(state => state.updatedMapReducer);
@@ -129,6 +130,16 @@ export const useSlime = ({
     });
   }, [dispatch, position.x, position.y, updatedMap]);
 
+  function generateRandomEnemyAction() {
+    const randomAction: EEnemeyAction = randomNumber({ min: 0, max: 1 });
+
+    if (randomAction === EEnemeyAction.MOVE) {
+      handleMove();
+    } else {
+      handleAttack();
+    }
+  }
+
   useEffect(() => {
     if (isAttacking) {
       setTimeout(() => {
@@ -139,16 +150,19 @@ export const useSlime = ({
   }, [isAttacking]);
 
   useInterval(() => {
-    handleMove();
+    generateRandomEnemyAction();
   }, enemyMoveDurationMS);
 
   useEffect(() => {
-    if (attackPosition && !isDead) {
-      if (attackPosition.x === position.x && attackPosition.y === position.y) {
+    if (heroAttackPosition && !isDead) {
+      if (
+        heroAttackPosition.x === position.x &&
+        heroAttackPosition.y === position.y
+      ) {
         handleReceiveDamage();
       }
     }
-  }, [attackPosition, handleReceiveDamage, position, isDead]);
+  }, [heroAttackPosition, handleReceiveDamage, position, isDead]);
 
   return {
     x: position.x,
