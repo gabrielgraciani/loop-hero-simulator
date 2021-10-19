@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Hero } from '../Hero';
 import { Trap } from '../Trap';
 import { Slime } from '../Slime';
+import { Skeleton } from '../Skeleton';
 import { Debugger } from '../Debugger';
 
 import { EMapFloor } from '../../enum/MapFloor';
@@ -58,6 +59,12 @@ export const Game = (): JSX.Element => {
           case EMapFloor.SLIME: {
             elements.push(
               <Slime key={key} initialPosition={initialPosition} />,
+            );
+            break;
+          }
+          case EMapFloor.SKELETON: {
+            elements.push(
+              <Skeleton key={key} initialPosition={initialPosition} />,
             );
             break;
           }

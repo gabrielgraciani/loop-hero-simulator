@@ -1,9 +1,9 @@
 import { useSlime } from '../../hooks/useSlime';
 
 import { Container, LifeContainer } from './styles';
-import { ISlimeProps } from './types';
+import { ISkeletonProps } from './types';
 
-export function Slime({ initialPosition }: ISlimeProps): JSX.Element {
+export function Skeleton({ initialPosition }: ISkeletonProps): JSX.Element {
   const { isAttacking, x, y, direction, isDead, life, isAfterDeathAnimation } =
     useSlime({
       initialPosition,

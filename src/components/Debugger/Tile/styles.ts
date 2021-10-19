@@ -26,6 +26,10 @@ const colorVariation = {
     color: red;
     border-color: red;
   `,
+  [EMapFloor.SKELETON]: css`
+    color: orange;
+    border-color: orange;
+  `,
 };
 
 const Container = styled.div.attrs((props: IStyledTileProps) => {

@@ -115,7 +115,7 @@ function generateInitialMap(rows: number, columns: number): number[][] {
   /** CREATE SLIME SPOTS */
   const slimesQuantity = randomNumber({ min: 4, max: 8 });
 
-  const newMap = generateFilledFieldsOnMap({
+  generateFilledFieldsOnMap({
     elementToBeRender: EMapFloor.SLIME,
     elementQuantity: slimesQuantity,
     rowsLength: rowsArray.length,
@@ -123,6 +123,18 @@ function generateInitialMap(rows: number, columns: number): number[][] {
     map,
   });
   /** CREATE SLIME SPOTS */
+
+  /** CREATE SKELETON SPOTS */
+  const skeletonQuantity = randomNumber({ min: 4, max: 8 });
+
+  const newMap = generateFilledFieldsOnMap({
+    elementToBeRender: EMapFloor.SKELETON,
+    elementQuantity: skeletonQuantity,
+    rowsLength: rowsArray.length,
+    columnsLength: columnsArray.length,
+    map,
+  });
+  /** CREATE SKELETON SPOTS */
 
   return newMap;
 }
