@@ -1,11 +1,11 @@
-import { useSlime } from '../../hooks/useSlime';
+import { useEnemy } from '../../hooks/useEnemy';
 
 import { Container, LifeContainer } from './styles';
 import { ISkeletonProps } from './types';
 
 export function Skeleton({ initialPosition }: ISkeletonProps): JSX.Element {
   const { isAttacking, x, y, direction, isDead, life, isAfterDeathAnimation } =
-    useSlime({
+    useEnemy({
       initialPosition,
     });
 

@@ -13,7 +13,7 @@ import { IDirections } from '../interfaces/Directions';
 import {
   updateMap,
   setHeroAttackPosition,
-  resetSlimeAttackPosition,
+  resetEnemyAttackPosition,
 } from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
@@ -45,7 +45,7 @@ export const useHero = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
   const dispatch = useDispatch();
-  const { updatedMap, slimeAttackPosition } = useSelector<
+  const { updatedMap, enemyAttackPosition } = useSelector<
     IGlobalReduxState,
     IUpdatedMapState
   >(state => state.updatedMapReducer);
@@ -125,7 +125,7 @@ export const useHero = ({
   }
 
   const handleReceiveDamage = useCallback(() => {
-    dispatch(resetSlimeAttackPosition());
+    dispatch(resetEnemyAttackPosition());
     const randomDamage = randomNumber({ min: 1, max: 50 });
 
     setLife(oldLife => {
@@ -154,8 +154,8 @@ export const useHero = ({
   }, [isAttacking]);
 
   useEffect(() => {
-    if (slimeAttackPosition?.length && !isDead) {
-      const foundHeroPositionWhenSlimeAttack = slimeAttackPosition.find(
+    if (enemyAttackPosition?.length && !isDead) {
+      const foundHeroPositionWhenSlimeAttack = enemyAttackPosition.find(
         slimeAttack => {
           return slimeAttack.x === position.x && slimeAttack.y === position.y;
         },
@@ -166,7 +166,7 @@ export const useHero = ({
       }
     }
   }, [
-    slimeAttackPosition,
+    enemyAttackPosition,
     handleReceiveDamage,
     isDead,
     position.x,

@@ -14,14 +14,14 @@ interface ISetHeroAttackPosition {
   };
 }
 
-interface ISetSlimeAttackPosition {
+interface ISetEnemyAttackPosition {
   type: string;
   payload: {
-    slimeAttackPosition?: IPosition;
+    enemyAttackPosition?: IPosition;
   };
 }
 
-interface IResetSlimeAttackPosition {
+interface IResetEnemyAttackPosition {
   type: string;
 }
 
@@ -41,17 +41,17 @@ export function setHeroAttackPosition(
   };
 }
 
-export function setSlimeAttackPosition(
-  slimeAttackPosition?: IPosition,
-): ISetSlimeAttackPosition {
+export function setEnemyAttackPosition(
+  enemyAttackPosition?: IPosition,
+): ISetEnemyAttackPosition {
   return {
-    type: 'SET_SLIME_ATTACK_POSITION',
-    payload: { slimeAttackPosition },
+    type: 'SET_ENEMY_ATTACK_POSITION',
+    payload: { enemyAttackPosition },
   };
 }
 
-export function resetSlimeAttackPosition(): IResetSlimeAttackPosition {
+export function resetEnemyAttackPosition(): IResetEnemyAttackPosition {
   return {
-    type: 'RESET_SLIME_ATTACK_POSITION',
+    type: 'RESET_ENEMY_ATTACK_POSITION',
   };
 }

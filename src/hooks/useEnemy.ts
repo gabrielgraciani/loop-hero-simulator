@@ -19,8 +19,8 @@ import { IDirections } from '../interfaces/Directions';
 import {
   setHeroAttackPosition,
   updateMap,
-  setSlimeAttackPosition,
-  resetSlimeAttackPosition,
+  resetEnemyAttackPosition,
+  setEnemyAttackPosition,
 } from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
@@ -33,7 +33,7 @@ import {
   randomNumber,
 } from '../utils/helper';
 
-interface IUseHeroResponse {
+interface IUseEnemyResponse {
   x: number;
   y: number;
   direction: IDirections;
@@ -47,13 +47,13 @@ interface IUseHeroResponse {
   isAfterDeathAnimation: boolean;
 }
 
-interface IUseHeroProps {
+interface IUseEnemyProps {
   initialPosition: IPosition;
 }
 
-export const useSlime = ({
+export const useEnemy = ({
   initialPosition,
-}: IUseHeroProps): IUseHeroResponse => {
+}: IUseEnemyProps): IUseEnemyResponse => {
   const dispatch = useDispatch();
   const { updatedMap, heroAttackPosition } = useSelector<
     IGlobalReduxState,
@@ -106,24 +106,24 @@ export const useSlime = ({
     setIsAttacking(true);
     setIsBlocked(true);
 
-    let slimeAttackPositionY = position.y;
-    let slimeAttackPositionX = position.x;
+    let enemyAttackPositionY = position.y;
+    let enemyAttackPositionX = position.x;
 
     switch (direction) {
       case EDirections.DOWN: {
-        slimeAttackPositionY += 1;
+        enemyAttackPositionY += 1;
         break;
       }
       case EDirections.UP: {
-        slimeAttackPositionY -= 1;
+        enemyAttackPositionY -= 1;
         break;
       }
       case EDirections.LEFT: {
-        slimeAttackPositionX -= 1;
+        enemyAttackPositionX -= 1;
         break;
       }
       case EDirections.RIGHT: {
-        slimeAttackPositionX += 1;
+        enemyAttackPositionX += 1;
         break;
       }
 
@@ -133,11 +133,11 @@ export const useSlime = ({
     }
 
     const attackPosition = {
-      x: slimeAttackPositionX,
-      y: slimeAttackPositionY,
+      x: enemyAttackPositionX,
+      y: enemyAttackPositionY,
     };
 
-    dispatch(setSlimeAttackPosition(attackPosition));
+    dispatch(setEnemyAttackPosition(attackPosition));
   }
 
   const handleReceiveDamage = useCallback(() => {
@@ -182,7 +182,7 @@ export const useSlime = ({
         setIsBlocked(false);
       }, attackDurationMS);
     } else {
-      dispatch(resetSlimeAttackPosition());
+      dispatch(resetEnemyAttackPosition());
     }
   }, [dispatch, isAttacking]);
 
