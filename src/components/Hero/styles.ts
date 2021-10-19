@@ -75,7 +75,6 @@ const Container = styled.div.attrs((props: IStyledHeroProps) => {
   position: absolute;
   z-index: 99;
   transform: scale(1.5);
-  transition: all 0.3s ease;
 
   ${props => backgroundAnimation(props.isAttacking, props.isDead)}
 `;

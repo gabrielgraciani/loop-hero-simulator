@@ -85,7 +85,6 @@ const Container = styled.div.attrs((props: IStyledSlimeProps) => {
   height: ${`${tileSize / 10}rem`};
   position: absolute;
   z-index: 9;
-  transition: all 0.3s ease;
 
   display: ${({ isAfterDeathAnimation }) =>
     isAfterDeathAnimation ? 'none' : 'block'};

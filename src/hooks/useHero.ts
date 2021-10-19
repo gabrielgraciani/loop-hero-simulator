@@ -12,7 +12,8 @@ import { IDirections } from '../interfaces/Directions';
 
 import {
   updateMap,
-  setAttackPosition,
+  setHeroAttackPosition,
+  resetSlimeAttackPosition,
 } from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
@@ -44,9 +45,10 @@ export const useHero = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
   const dispatch = useDispatch();
-  const { updatedMap } = useSelector<IGlobalReduxState, IUpdatedMapState>(
-    state => state.updatedMapReducer,
-  );
+  const { updatedMap, slimeAttackPosition } = useSelector<
+    IGlobalReduxState,
+    IUpdatedMapState
+  >(state => state.updatedMapReducer);
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.DOWN);
@@ -114,12 +116,16 @@ export const useHero = ({
       }
     }
 
-    const attackPosition = { x: heroAttackPositionX, y: heroAttackPositionY };
+    const attackPosition = {
+      x: heroAttackPositionX,
+      y: heroAttackPositionY,
+    };
 
-    dispatch(setAttackPosition(attackPosition));
+    dispatch(setHeroAttackPosition(attackPosition));
   }
 
-  function handleReceiveDamage() {
+  const handleReceiveDamage = useCallback(() => {
+    dispatch(resetSlimeAttackPosition());
     const randomDamage = randomNumber({ min: 1, max: 50 });
 
     setLife(oldLife => {
@@ -132,7 +138,7 @@ export const useHero = ({
 
       return result;
     });
-  }
+  }, [dispatch]);
 
   useEffect(() => {
     if (isAttacking) {
@@ -146,6 +152,26 @@ export const useHero = ({
 
     return undefined;
   }, [isAttacking]);
+
+  useEffect(() => {
+    if (slimeAttackPosition?.length && !isDead) {
+      const foundHeroPositionWhenSlimeAttack = slimeAttackPosition.find(
+        slimeAttack => {
+          return slimeAttack.x === position.x && slimeAttack.y === position.y;
+        },
+      );
+
+      if (foundHeroPositionWhenSlimeAttack) {
+        handleReceiveDamage();
+      }
+    }
+  }, [
+    slimeAttackPosition,
+    handleReceiveDamage,
+    isDead,
+    position.x,
+    position.y,
+  ]);
 
   return {
     x: position.x,

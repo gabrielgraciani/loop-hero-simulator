@@ -17,8 +17,10 @@ import { IPosition } from '../interfaces/Position';
 import { IDirections } from '../interfaces/Directions';
 
 import {
-  setAttackPosition,
+  setHeroAttackPosition,
   updateMap,
+  setSlimeAttackPosition,
+  resetSlimeAttackPosition,
 } from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
@@ -103,11 +105,44 @@ export const useSlime = ({
   function handleAttack() {
     setIsAttacking(true);
     setIsBlocked(true);
+
+    let slimeAttackPositionY = position.y;
+    let slimeAttackPositionX = position.x;
+
+    switch (direction) {
+      case EDirections.DOWN: {
+        slimeAttackPositionY += 1;
+        break;
+      }
+      case EDirections.UP: {
+        slimeAttackPositionY -= 1;
+        break;
+      }
+      case EDirections.LEFT: {
+        slimeAttackPositionX -= 1;
+        break;
+      }
+      case EDirections.RIGHT: {
+        slimeAttackPositionX += 1;
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+
+    const attackPosition = {
+      x: slimeAttackPositionX,
+      y: slimeAttackPositionY,
+    };
+
+    dispatch(setSlimeAttackPosition(attackPosition));
   }
 
   const handleReceiveDamage = useCallback(() => {
     const randomDamage = randomNumber({ min: 1, max: 50 });
-    dispatch(setAttackPosition(undefined));
+    dispatch(setHeroAttackPosition(undefined));
 
     setLife(oldLife => {
       const result = oldLife - randomDamage;
@@ -146,8 +181,10 @@ export const useSlime = ({
         setIsAttacking(false);
         setIsBlocked(false);
       }, attackDurationMS);
+    } else {
+      dispatch(resetSlimeAttackPosition());
     }
-  }, [isAttacking]);
+  }, [dispatch, isAttacking]);
 
   useInterval(() => {
     generateRandomEnemyAction();

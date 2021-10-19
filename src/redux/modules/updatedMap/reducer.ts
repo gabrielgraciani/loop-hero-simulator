@@ -5,6 +5,7 @@ import { IUpdatedMapState } from './types';
 const INITIAL_STATE: IUpdatedMapState = {
   updatedMap: [],
   heroAttackPosition: undefined,
+  slimeAttackPosition: [],
 };
 
 export const updatedMapReducer: Reducer<IUpdatedMapState> = (
@@ -27,6 +28,26 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
       return {
         ...state,
         heroAttackPosition,
+      };
+    }
+
+    case 'SET_SLIME_ATTACK_POSITION': {
+      const { slimeAttackPosition } = action.payload;
+
+      const newSlimeAttackPosition = state.slimeAttackPosition?.length
+        ? [...state.slimeAttackPosition]
+        : [];
+
+      return {
+        ...state,
+        slimeAttackPosition: [...newSlimeAttackPosition, slimeAttackPosition],
+      };
+    }
+
+    case 'RESET_SLIME_ATTACK_POSITION': {
+      return {
+        ...state,
+        slimeAttackPosition: [],
       };
     }
 
