@@ -19,10 +19,10 @@ const SquareRowContainer = styled.div`
   display: flex;
 `;
 
-const Square = styled.div`
+const Square = styled.div<{ floor: number }>`
   width: 4.8rem;
   height: 4.8rem;
-  background: ${Colors.light_gray};
+  background: url(images/floor/floor${({ floor }) => floor}.png) no-repeat;
   border: 0.1rem solid blue;
 `;
 

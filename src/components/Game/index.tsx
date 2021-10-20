@@ -24,6 +24,7 @@ import {
   Author,
   TextContainer,
 } from '../../pages/Home.styles';
+import { randomNumber } from '../../utils/helper';
 
 export const Game = (): JSX.Element => {
   const { initialMap } = useSelector<IGlobalReduxState, IMapState>(
@@ -112,7 +113,13 @@ export const Game = (): JSX.Element => {
               <SquareRowContainer key={keyRow}>
                 {row.map(() => {
                   const keyColumn = uuid();
-                  return <Square key={`${keyRow}-${keyColumn}`} />;
+                  const randomFloor = randomNumber({ min: 1, max: 10 });
+                  return (
+                    <Square
+                      key={`${keyRow}-${keyColumn}`}
+                      floor={randomFloor}
+                    />
+                  );
                 })}
               </SquareRowContainer>
             );
