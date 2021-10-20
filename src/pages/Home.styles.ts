@@ -24,6 +24,39 @@ const Square = styled.div<{ floor: number }>`
   height: 4.8rem;
   background: url(images/floor/floor${({ floor }) => floor}.png) no-repeat;
   border: 0.1rem solid blue;
+
+  &.wallTop {
+    background: url(images/wall/wall.png) no-repeat;
+  }
+  &.wallLeft {
+    background: url(images/wall/wall.png) no-repeat;
+    transform: rotate(-90deg);
+  }
+  &.wallRight {
+    background: url(images/wall/wall.png) no-repeat;
+    transform: rotate(90deg);
+  }
+  &.wallBottom {
+    background: url(images/wall/wall.png) no-repeat;
+    transform: rotate(-180deg);
+  }
+
+  &.cornerLeftTop {
+    background: url(images/wall/wallCorner.png) no-repeat;
+    transform: rotate(0);
+  }
+  &.cornerRightTop {
+    background: url(images/wall/wallCorner.png) no-repeat;
+    transform: rotate(90deg);
+  }
+  &.cornerLeftBottom {
+    background: url(images/wall/wallCorner.png) no-repeat;
+    transform: rotate(-90deg);
+  }
+  &.cornerRightBottom {
+    background: url(images/wall/wallCorner.png) no-repeat;
+    transform: rotate(-180deg);
+  }
 `;
 
 const Header = styled.div`

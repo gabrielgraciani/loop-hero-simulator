@@ -107,17 +107,54 @@ export const Game = (): JSX.Element => {
         <SquaresContainer>
           {isDebuggerActive && isLocalEnvironment && <Debugger />}
           {renderMapContent()}
-          {initialMap.map(row => {
+          {initialMap.map((row, rowIndex) => {
             const keyRow = uuid();
             return (
               <SquareRowContainer key={keyRow}>
-                {row.map(() => {
+                {row.map((_, columnIndex) => {
                   const keyColumn = uuid();
                   const randomFloor = randomNumber({ min: 1, max: 10 });
+
+                  const cornerLeftTop = rowIndex === 0 && columnIndex === 0;
+                  const cornerRightTop =
+                    rowIndex === 0 && columnIndex === row.length - 1;
+                  const cornerLeftBottom =
+                    rowIndex === initialMap.length - 1 && columnIndex === 0;
+                  const cornerRightBottom =
+                    rowIndex === initialMap.length - 1 &&
+                    columnIndex === row.length - 1;
+
+                  const wallTop = rowIndex === 0;
+                  const wallBottom = rowIndex === initialMap.length - 1;
+                  const wallLeft = columnIndex === 0;
+                  const wallRight = columnIndex === row.length - 1;
+
+                  const cornerLeftTopClassName = cornerLeftTop
+                    ? 'cornerLeftTop'
+                    : '';
+                  const cornerRightTopClassName = cornerRightTop
+                    ? 'cornerRightTop'
+                    : '';
+                  const cornerLeftBottomClassName = cornerLeftBottom
+                    ? 'cornerLeftBottom'
+                    : '';
+                  const cornerRightBottomClassName = cornerRightBottom
+                    ? 'cornerRightBottom'
+                    : '';
+                  const wallTopClassName = wallTop ? 'wallTop' : '';
+                  const wallBottomClassName = wallBottom ? 'wallBottom' : '';
+                  const wallLeftClassName = wallLeft ? 'wallLeft' : '';
+                  const wallRightClassName = wallRight ? 'wallRight' : '';
+
+                  const className = `${cornerLeftTopClassName} ${cornerRightTopClassName}
+                  ${cornerLeftBottomClassName} ${cornerRightBottomClassName} ${wallTopClassName}
+                   ${wallBottomClassName} ${wallLeftClassName} ${wallRightClassName}`;
+
                   return (
                     <Square
                       key={`${keyRow}-${keyColumn}`}
                       floor={randomFloor}
+                      className={className}
                     />
                   );
                 })}
