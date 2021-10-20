@@ -11,54 +11,6 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const SquaresContainer = styled.div`
-  position: relative;
-`;
-
-const SquareRowContainer = styled.div`
-  display: flex;
-`;
-
-const Square = styled.div<{ floor: number }>`
-  width: 4.8rem;
-  height: 4.8rem;
-  background: url(images/floor/floor${({ floor }) => floor}.png) no-repeat;
-  border: 0.1rem solid blue;
-
-  &.wallTop {
-    background: url(images/wall/wall.png) no-repeat;
-  }
-  &.wallLeft {
-    background: url(images/wall/wall.png) no-repeat;
-    transform: rotate(-90deg);
-  }
-  &.wallRight {
-    background: url(images/wall/wall.png) no-repeat;
-    transform: rotate(90deg);
-  }
-  &.wallBottom {
-    background: url(images/wall/wall.png) no-repeat;
-    transform: rotate(-180deg);
-  }
-
-  &.cornerLeftTop {
-    background: url(images/wall/wallCorner.png) no-repeat;
-    transform: rotate(0);
-  }
-  &.cornerRightTop {
-    background: url(images/wall/wallCorner.png) no-repeat;
-    transform: rotate(90deg);
-  }
-  &.cornerLeftBottom {
-    background: url(images/wall/wallCorner.png) no-repeat;
-    transform: rotate(-90deg);
-  }
-  &.cornerRightBottom {
-    background: url(images/wall/wallCorner.png) no-repeat;
-    transform: rotate(-180deg);
-  }
-`;
-
 const Header = styled.div`
   display: flex;
   width: calc(100% - 10rem);
@@ -90,14 +42,4 @@ const Author = styled.span`
   font-style: italic;
 `;
 
-export {
-  Container,
-  SquaresContainer,
-  SquareRowContainer,
-  Square,
-  DebuggerButton,
-  Header,
-  Title,
-  Author,
-  TextContainer,
-};
+export { Container, DebuggerButton, Header, Title, Author, TextContainer };
