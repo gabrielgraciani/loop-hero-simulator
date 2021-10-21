@@ -113,7 +113,7 @@ function generateInitialMap(
   /** CREATE HERO SPOT */
 
   /** CREATE TRAP SPOTS */
-  const trapsQuantity = randomNumber({ min: 4, max: 10 });
+  const trapsQuantity = randomNumber({ min: 10, max: 15 });
 
   generateFilledFieldsOnMap({
     elementToBeRender: EMapFloor.TRAP,
@@ -125,7 +125,7 @@ function generateInitialMap(
   /** CREATE TRAP SPOTS */
 
   /** CREATE SLIME SPOTS */
-  const slimesQuantity = randomNumber({ min: 4, max: 8 });
+  const slimesQuantity = randomNumber({ min: 6, max: 12 });
 
   generateFilledFieldsOnMap({
     elementToBeRender: EMapFloor.SLIME,
@@ -137,7 +137,7 @@ function generateInitialMap(
   /** CREATE SLIME SPOTS */
 
   /** CREATE SKELETON SPOTS */
-  const skeletonQuantity = randomNumber({ min: 4, max: 8 });
+  const skeletonQuantity = randomNumber({ min: 6, max: 12 });
 
   const newMap = generateFilledFieldsOnMap({
     elementToBeRender: EMapFloor.SKELETON,
@@ -148,7 +148,14 @@ function generateInitialMap(
   });
   /** CREATE SKELETON SPOTS */
 
-  const enemiesQuantity = slimesQuantity + skeletonQuantity;
+  let enemiesQuantity = 0;
+  newMap.forEach(row => {
+    row.forEach(column => {
+      if (column === EMapFloor.SLIME || column === EMapFloor.SKELETON) {
+        enemiesQuantity += 1;
+      }
+    });
+  });
 
   return {
     map: newMap,
