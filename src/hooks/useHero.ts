@@ -63,13 +63,15 @@ export const useHero = ({
         direction: directionParam,
         currentPosition: position,
       });
-      const nextMovementIsValid = isValidMovement({
-        map: updatedMap,
-        nextPosition,
-        walker,
-      });
+      const { isNextMovementValid, isNextMovementKillWalker } = isValidMovement(
+        {
+          map: updatedMap,
+          nextPosition,
+          walker,
+        },
+      );
 
-      if (nextMovementIsValid) {
+      if (isNextMovementValid) {
         const newMapState = [...updatedMap];
 
         const currentValue = newMapState[position.y][position.x];
@@ -82,6 +84,10 @@ export const useHero = ({
         setPosition(nextPosition);
       }
       setDirection(directionParam);
+
+      if (isNextMovementKillWalker) {
+        setIsDead(true);
+      }
     },
     [dispatch, position, updatedMap],
   );
@@ -132,7 +138,6 @@ export const useHero = ({
       const result = oldLife - randomDamage;
       if (result <= 0) {
         setIsDead(true);
-        setIsBlocked(true);
         return 0;
       }
 
@@ -172,6 +177,13 @@ export const useHero = ({
     position.x,
     position.y,
   ]);
+
+  useEffect(() => {
+    if (isDead) {
+      setIsBlocked(true);
+      setLife(0);
+    }
+  }, [isDead]);
 
   return {
     x: position.x,

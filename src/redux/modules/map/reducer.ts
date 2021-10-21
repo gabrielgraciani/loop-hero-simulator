@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 
-import { IMapState } from './types';
+import { EActionTypes, IMapState } from './types';
 
 const INITIAL_STATE: IMapState = {
   initialMap: [],
@@ -11,7 +11,7 @@ export const mapReducer: Reducer<IMapState> = (
   action,
 ) => {
   switch (action.type) {
-    case 'GENERATE_MAP': {
+    case EActionTypes.generateMap: {
       const { initialMap } = action.payload;
 
       return {

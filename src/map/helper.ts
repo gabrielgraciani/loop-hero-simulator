@@ -19,6 +19,11 @@ interface IGenerateFilledFieldsOnMapProps {
   map: number[][];
 }
 
+interface IGenerateInitialMapResponse {
+  map: number[][];
+  enemiesQuantity: number;
+}
+
 function generateRandomRowColumn({
   rowsLength,
   columnsLength,
@@ -59,10 +64,17 @@ function generateFilledFieldsOnMap({
   return newMap;
 }
 
-function generateInitialMap(rows: number, columns: number): number[][] {
+function generateInitialMap(
+  rows: number,
+  columns: number,
+): IGenerateInitialMapResponse {
   const map: number[][] = [];
 
-  if (rows === 0 || columns === 0) return map;
+  if (rows === 0 || columns === 0)
+    return {
+      map,
+      enemiesQuantity: 0,
+    };
 
   const rowsArray = Array.from(Array(rows).keys());
   const columnsArray = Array.from(Array(columns).keys());
@@ -136,7 +148,12 @@ function generateInitialMap(rows: number, columns: number): number[][] {
   });
   /** CREATE SKELETON SPOTS */
 
-  return newMap;
+  const enemiesQuantity = slimesQuantity + skeletonQuantity;
+
+  return {
+    map: newMap,
+    enemiesQuantity,
+  };
 }
 
 export { generateInitialMap };

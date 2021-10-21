@@ -1,33 +1,16 @@
 import { IPosition } from '../../../interfaces/Position';
-
-interface IGenerateMapResponse {
-  type: string;
-  payload: {
-    newMap: number[][];
-  };
-}
-
-interface ISetHeroAttackPosition {
-  type: string;
-  payload: {
-    heroAttackPosition?: IPosition;
-  };
-}
-
-interface ISetEnemyAttackPosition {
-  type: string;
-  payload: {
-    enemyAttackPosition?: IPosition;
-  };
-}
-
-interface IResetEnemyAttackPosition {
-  type: string;
-}
+import {
+  EActionTypes,
+  IGenerateMapResponse,
+  ISetHeroAttackPosition,
+  ISetEnemyAttackPosition,
+  IResetEnemyAttackPosition,
+  ISetEnemiesQuantity,
+} from './types';
 
 export function updateMap(newMap: number[][]): IGenerateMapResponse {
   return {
-    type: 'UPDATE_MAP',
+    type: EActionTypes.updateMap,
     payload: { newMap },
   };
 }
@@ -36,7 +19,7 @@ export function setHeroAttackPosition(
   heroAttackPosition?: IPosition,
 ): ISetHeroAttackPosition {
   return {
-    type: 'SET_HERO_ATTACK_POSITION',
+    type: EActionTypes.setHeroAttackPosition,
     payload: { heroAttackPosition },
   };
 }
@@ -45,13 +28,22 @@ export function setEnemyAttackPosition(
   enemyAttackPosition?: IPosition,
 ): ISetEnemyAttackPosition {
   return {
-    type: 'SET_ENEMY_ATTACK_POSITION',
+    type: EActionTypes.setEnemyAttackPosition,
     payload: { enemyAttackPosition },
   };
 }
 
 export function resetEnemyAttackPosition(): IResetEnemyAttackPosition {
   return {
-    type: 'RESET_ENEMY_ATTACK_POSITION',
+    type: EActionTypes.resetEnemyAttackPosition,
+  };
+}
+
+export function setEnemiesQuantity(
+  enemiesQuantity: number,
+): ISetEnemiesQuantity {
+  return {
+    type: EActionTypes.setEnemiesQuantity,
+    payload: { enemiesQuantity },
   };
 }

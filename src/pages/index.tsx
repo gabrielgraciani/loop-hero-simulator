@@ -8,7 +8,10 @@ import { tileSize } from '../config/Constants';
 import { generateInitialMap } from '../map/helper';
 
 import { Game } from '../components/Game';
-import { updateMap } from '../redux/modules/updatedMap/actions';
+import {
+  updateMap,
+  setEnemiesQuantity,
+} from '../redux/modules/updatedMap/actions';
 
 export default function Home(): JSX.Element {
   const { width, height } = useWindowSize();
@@ -19,9 +22,13 @@ export default function Home(): JSX.Element {
     const horizontalSquares = Math.floor((width || 0) / tileSize);
     const verticalSquares = Math.floor((height || 0) / tileSize);
 
-    const generatedMap = generateInitialMap(verticalSquares, horizontalSquares);
-    dispatch(generateMap(generatedMap));
-    dispatch(updateMap(generatedMap));
+    const { map, enemiesQuantity } = generateInitialMap(
+      verticalSquares,
+      horizontalSquares,
+    );
+    dispatch(generateMap(map));
+    dispatch(updateMap(map));
+    dispatch(setEnemiesQuantity(enemiesQuantity));
   }, [width, height, dispatch]);
 
   return (

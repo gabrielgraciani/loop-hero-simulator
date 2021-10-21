@@ -1,11 +1,12 @@
 import { Reducer } from 'redux';
 
-import { IUpdatedMapState } from './types';
+import { EActionTypes, IUpdatedMapState } from './types';
 
 const INITIAL_STATE: IUpdatedMapState = {
   updatedMap: [],
   heroAttackPosition: undefined,
   enemyAttackPosition: [],
+  enemiesQuantity: 0,
 };
 
 export const updatedMapReducer: Reducer<IUpdatedMapState> = (
@@ -13,7 +14,7 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
   action,
 ) => {
   switch (action.type) {
-    case 'UPDATE_MAP': {
+    case EActionTypes.updateMap: {
       const { newMap } = action.payload;
 
       return {
@@ -22,7 +23,7 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
       };
     }
 
-    case 'SET_HERO_ATTACK_POSITION': {
+    case EActionTypes.setHeroAttackPosition: {
       const { heroAttackPosition } = action.payload;
 
       return {
@@ -31,7 +32,7 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
       };
     }
 
-    case 'SET_ENEMY_ATTACK_POSITION': {
+    case EActionTypes.setEnemyAttackPosition: {
       const { enemyAttackPosition } = action.payload;
 
       const newSlimeAttackPosition = state.enemyAttackPosition?.length
@@ -44,10 +45,19 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
       };
     }
 
-    case 'RESET_ENEMY_ATTACK_POSITION': {
+    case EActionTypes.resetEnemyAttackPosition: {
       return {
         ...state,
         enemyAttackPosition: [],
+      };
+    }
+
+    case EActionTypes.setEnemiesQuantity: {
+      const { enemiesQuantity } = action.payload;
+
+      return {
+        ...state,
+        enemiesQuantity,
       };
     }
 

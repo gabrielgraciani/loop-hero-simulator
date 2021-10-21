@@ -77,13 +77,13 @@ export const useEnemy = ({
       direction: randomDirection,
       currentPosition: position,
     });
-    const nextMovementIsValid = isValidMovement({
+    const { isNextMovementValid } = isValidMovement({
       map: updatedMap,
       nextPosition,
       walker: EWalker.ENEMY,
     });
 
-    if (nextMovementIsValid) {
+    if (isNextMovementValid) {
       const newMapState = [...updatedMap];
 
       const currentValue = newMapState[position.y][position.x];
@@ -102,7 +102,7 @@ export const useEnemy = ({
     );
   }, [dispatch, position, updatedMap]);
 
-  function handleAttack() {
+  const handleAttack = useCallback(() => {
     setIsAttacking(true);
     setIsBlocked(true);
 
@@ -138,7 +138,7 @@ export const useEnemy = ({
     };
 
     dispatch(setEnemyAttackPosition(attackPosition));
-  }
+  }, [direction, dispatch, position]);
 
   const handleReceiveDamage = useCallback(() => {
     const randomDamage = randomNumber({ min: 1, max: 50 });
@@ -165,7 +165,11 @@ export const useEnemy = ({
     });
   }, [dispatch, position.x, position.y, updatedMap]);
 
-  function generateRandomEnemyAction() {
+  const generateRandomEnemyAction = useCallback(() => {
+    if (isBlocked) {
+      return;
+    }
+
     const randomAction: EEnemeyAction = randomNumber({ min: 0, max: 1 });
 
     if (randomAction === EEnemeyAction.MOVE) {
@@ -173,7 +177,7 @@ export const useEnemy = ({
     } else {
       handleAttack();
     }
-  }
+  }, [handleAttack, handleMove, isBlocked]);
 
   useEffect(() => {
     if (isAttacking) {

@@ -1,13 +1,8 @@
-interface IGenerateMapResponse {
-  type: string;
-  payload: {
-    initialMap: number[][];
-  };
-}
+import { IGenerateMapResponse, EActionTypes } from './types';
 
 export function generateMap(initialMap: number[][]): IGenerateMapResponse {
   return {
-    type: 'GENERATE_MAP',
+    type: EActionTypes.generateMap,
     payload: { initialMap },
   };
 }

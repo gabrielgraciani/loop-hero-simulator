@@ -23,6 +23,11 @@ interface IIsValidMovement {
   walker: EWalker;
 }
 
+interface IIsValidMovementResponse {
+  isNextMovementValid: boolean;
+  isNextMovementKillWalker: boolean;
+}
+
 function randomNumber({ min, max }: IRandomNumberProps): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -50,22 +55,27 @@ function handleNextPosition({
 }
 
 function getHeroValidMoves({ value }: IGetValidMovesProps) {
-  return (
-    value === EMapFloor.FLOOR ||
-    value === EMapFloor.TRAP ||
-    value === EMapFloor.HERO
-  );
+  return {
+    isNextMovementValid:
+      value === EMapFloor.FLOOR ||
+      value === EMapFloor.TRAP ||
+      value === EMapFloor.HERO,
+    isNextMovementKillWalker: value === EMapFloor.TRAP,
+  };
 }
 
 function getEnemyValidMoves({ value }: IGetValidMovesProps) {
-  return value === EMapFloor.FLOOR;
+  return {
+    isNextMovementValid: value === EMapFloor.FLOOR,
+    isNextMovementKillWalker: false,
+  };
 }
 
 function isValidMovement({
   map,
   nextPosition,
   walker,
-}: IIsValidMovement): boolean {
+}: IIsValidMovement): IIsValidMovementResponse {
   const mapValue = map[nextPosition.y][nextPosition.x];
 
   const result =
