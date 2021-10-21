@@ -58,9 +58,21 @@ export const Map = ({ children }: IMapProps): JSX.Element => {
               const wallLeftClassName = wallLeft ? 'wallLeft' : '';
               const wallRightClassName = wallRight ? 'wallRight' : '';
 
+              const noBorder =
+                cornerLeftTop ||
+                cornerRightTop ||
+                cornerLeftBottom ||
+                cornerRightBottom ||
+                wallTop ||
+                wallBottom ||
+                wallLeft ||
+                wallRight
+                  ? 'noBorder'
+                  : '';
+
               const className = `${cornerLeftTopClassName} ${cornerRightTopClassName}
             ${cornerLeftBottomClassName} ${cornerRightBottomClassName} ${wallTopClassName}
-             ${wallBottomClassName} ${wallLeftClassName} ${wallRightClassName}`;
+             ${wallBottomClassName} ${wallLeftClassName} ${wallRightClassName} ${noBorder}`;
 
               return (
                 <Tile
