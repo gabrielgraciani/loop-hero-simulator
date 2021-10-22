@@ -5,6 +5,10 @@ export interface IUpdatedMapState {
   heroAttackPosition?: IPosition;
   enemyAttackPosition?: IPosition[];
   enemiesQuantity: number;
+  score: {
+    enemiesKilled: number;
+    mapsGenerated: number;
+  };
 }
 
 export enum EActionTypes {

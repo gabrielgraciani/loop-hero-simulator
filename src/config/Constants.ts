@@ -7,6 +7,8 @@ const heroInitialLife = 100;
 
 const enemyMoveDurationMS = 3000;
 
+const loaderDurationMS = 3000;
+
 export {
   attackDurationMS,
   deathDurationMS,
@@ -14,4 +16,5 @@ export {
   tileSize,
   heroInitialLife,
   enemyMoveDurationMS,
+  loaderDurationMS,
 };

@@ -1,13 +1,17 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+
+import { Game } from '../components/Game';
+import { Loader } from '../components/Loader';
+
+import { tileSize, loaderDurationMS } from '../config/Constants';
 
 import { generateMap } from '../redux/modules/map/actions';
 import { useWindowSize } from '../hooks/useWindowSize';
-import { tileSize } from '../config/Constants';
+
 import { generateInitialMap } from '../map/helper';
 
-import { Game } from '../components/Game';
 import {
   updateMap,
   setEnemiesQuantity,
@@ -15,6 +19,7 @@ import {
 
 export default function Home(): JSX.Element {
   const { width, height } = useWindowSize();
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -31,13 +36,23 @@ export default function Home(): JSX.Element {
     dispatch(setEnemiesQuantity(enemiesQuantity));
   }, [width, height, dispatch]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, loaderDurationMS);
+  }, []);
+
   return (
     <>
       <Head>
         <title>Walking Simulator Game</title>
       </Head>
 
-      <Game />
+      {isLoading ? (
+        <Loader title="Generating a random map" duration={loaderDurationMS} />
+      ) : (
+        <Game />
+      )}
     </>
   );
 }
