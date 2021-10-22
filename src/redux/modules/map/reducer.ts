@@ -4,6 +4,7 @@ import { EActionTypes, IMapState } from './types';
 
 const INITIAL_STATE: IMapState = {
   initialMap: [],
+  isLoading: true,
 };
 
 export const mapReducer: Reducer<IMapState> = (
@@ -17,7 +18,15 @@ export const mapReducer: Reducer<IMapState> = (
       return {
         ...state,
         initialMap,
-        updatedMap: initialMap,
+      };
+    }
+
+    case EActionTypes.setIsLoading: {
+      const { isLoading } = action.payload;
+
+      return {
+        ...state,
+        isLoading,
       };
     }
 

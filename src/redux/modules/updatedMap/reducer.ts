@@ -65,6 +65,15 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
       };
     }
 
+    case EActionTypes.setScore: {
+      const { score } = action.payload;
+
+      return {
+        ...state,
+        score,
+      };
+    }
+
     default: {
       return state;
     }

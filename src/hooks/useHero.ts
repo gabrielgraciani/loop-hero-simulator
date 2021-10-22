@@ -14,7 +14,9 @@ import {
   updateMap,
   setHeroAttackPosition,
   resetEnemyAttackPosition,
+  setScore,
 } from '../redux/modules/updatedMap/actions';
+import { setIsLoading } from '../redux/modules/map/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
 
@@ -45,10 +47,10 @@ export const useHero = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
   const dispatch = useDispatch();
-  const { updatedMap, enemyAttackPosition } = useSelector<
-    IGlobalReduxState,
-    IUpdatedMapState
-  >(state => state.updatedMapReducer);
+  const { updatedMap, enemyAttackPosition, score, enemiesQuantity } =
+    useSelector<IGlobalReduxState, IUpdatedMapState>(
+      state => state.updatedMapReducer,
+    );
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.DOWN);
@@ -63,20 +65,32 @@ export const useHero = ({
         direction: directionParam,
         currentPosition: position,
       });
-      const { isNextMovementValid, isNextMovementKillWalker } = isValidMovement(
-        {
-          map: updatedMap,
-          nextPosition,
-          walker,
-        },
-      );
+      const {
+        isNextMovementValid,
+        isNextMovementKillWalker,
+        isNextMovementIsDoor,
+      } = isValidMovement({
+        map: updatedMap,
+        nextPosition,
+        walker,
+      });
+
+      if (isNextMovementIsDoor && enemiesQuantity === 0) {
+        const newScore = {
+          enemiesKilled: score.enemiesKilled,
+          mapsGenerated: score.mapsGenerated + 1,
+        };
+        dispatch(setScore(newScore));
+        dispatch(setIsLoading(true));
+      }
 
       if (isNextMovementValid) {
         const newMapState = [...updatedMap];
 
         const currentValue = newMapState[position.y][position.x];
 
-        newMapState[position.y][position.x] = EMapFloor.FLOOR;
+        newMapState[position.y][position.x] =
+          currentValue === EMapFloor.DOOR ? EMapFloor.DOOR : EMapFloor.FLOOR;
         newMapState[nextPosition.y][nextPosition.x] = currentValue;
 
         dispatch(updateMap(newMapState));
@@ -89,7 +103,7 @@ export const useHero = ({
         setIsDead(true);
       }
     },
-    [dispatch, position, updatedMap],
+    [dispatch, enemiesQuantity, position, score, updatedMap],
   );
 
   function handleAttack() {

@@ -22,6 +22,7 @@ import {
   resetEnemyAttackPosition,
   setEnemyAttackPosition,
   setEnemiesQuantity,
+  setScore,
 } from '../redux/modules/updatedMap/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
@@ -56,10 +57,10 @@ export const useEnemy = ({
   initialPosition,
 }: IUseEnemyProps): IUseEnemyResponse => {
   const dispatch = useDispatch();
-  const { updatedMap, heroAttackPosition, enemiesQuantity } = useSelector<
-    IGlobalReduxState,
-    IUpdatedMapState
-  >(state => state.updatedMapReducer);
+  const { updatedMap, heroAttackPosition, enemiesQuantity, score } =
+    useSelector<IGlobalReduxState, IUpdatedMapState>(
+      state => state.updatedMapReducer,
+    );
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.LEFT);
@@ -158,6 +159,12 @@ export const useEnemy = ({
 
           dispatch(updateMap(newMap));
           dispatch(setEnemiesQuantity(enemiesQuantity - 1));
+
+          const newScore = {
+            enemiesKilled: score.enemiesKilled + 1,
+            mapsGenerated: score.mapsGenerated,
+          };
+          dispatch(setScore(newScore));
           setIsAfterDeathAnimation(true);
         }, deathDurationMS);
         return 0;
@@ -165,7 +172,7 @@ export const useEnemy = ({
 
       return result;
     });
-  }, [dispatch, enemiesQuantity, position, updatedMap]);
+  }, [dispatch, enemiesQuantity, position, score, updatedMap]);
 
   const generateRandomEnemyAction = useCallback(() => {
     if (isBlocked) {
