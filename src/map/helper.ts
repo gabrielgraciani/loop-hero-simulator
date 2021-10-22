@@ -24,6 +24,12 @@ interface IGenerateInitialMapResponse {
   enemiesQuantity: number;
 }
 
+interface IGenerateDoorProps {
+  rowsLength: number;
+  columnsLength: number;
+  map: number[][];
+}
+
 function generateRandomRowColumn({
   rowsLength,
   columnsLength,
@@ -62,6 +68,26 @@ function generateFilledFieldsOnMap({
   });
 
   return newMap;
+}
+
+function generateDoor({ rowsLength, columnsLength, map }: IGenerateDoorProps) {
+  const newMap = [...map];
+
+  const { columnIndex } = generateRandomRowColumn({
+    rowsLength,
+    columnsLength,
+  });
+
+  // getting only the first row to render the door
+  const rowIndex = 0;
+  const newColumnIndex =
+    columnIndex === columnsLength - 1 ? columnIndex - 1 : columnIndex;
+
+  // add door elemnt to 4 tiles
+  newMap[rowIndex][newColumnIndex] = EMapFloor.DOOR;
+  newMap[rowIndex][newColumnIndex + 1] = EMapFloor.DOOR;
+  newMap[rowIndex + 1][newColumnIndex] = EMapFloor.DOOR;
+  newMap[rowIndex + 1][newColumnIndex + 1] = EMapFloor.DOOR;
 }
 
 function generateInitialMap(
@@ -139,7 +165,7 @@ function generateInitialMap(
   /** CREATE SKELETON SPOTS */
   const skeletonQuantity = randomNumber({ min: 6, max: 12 });
 
-  const newMap = generateFilledFieldsOnMap({
+  generateFilledFieldsOnMap({
     elementToBeRender: EMapFloor.SKELETON,
     elementQuantity: skeletonQuantity,
     rowsLength: rowsArray.length,
@@ -147,6 +173,25 @@ function generateInitialMap(
     map,
   });
   /** CREATE SKELETON SPOTS */
+
+  /** CREATE DOOR SPOT */
+  generateDoor({
+    rowsLength: rowsArray.length,
+    columnsLength: columnsArray.length,
+    map,
+  });
+  /** CREATE DOOR SPOT */
+
+  /** REMOVING TRAPS FROM FIRST AND SECOND ROW */
+  const newMap = map.map((row, rowIndex) => {
+    return row.map(column => {
+      if (rowIndex === 1 && column === EMapFloor.TRAP) {
+        return EMapFloor.FLOOR;
+      }
+      return column;
+    });
+  });
+  /** REMOVING TRAPS FROM FIRST AND SECOND ROW */
 
   let enemiesQuantity = 0;
   newMap.forEach(row => {

@@ -26,6 +26,7 @@ interface IIsValidMovement {
 interface IIsValidMovementResponse {
   isNextMovementValid: boolean;
   isNextMovementKillWalker: boolean;
+  isNextMovementIsDoor: boolean;
 }
 
 function randomNumber({ min, max }: IRandomNumberProps): number {
@@ -59,8 +60,10 @@ function getHeroValidMoves({ value }: IGetValidMovesProps) {
     isNextMovementValid:
       value === EMapFloor.FLOOR ||
       value === EMapFloor.TRAP ||
-      value === EMapFloor.HERO,
+      value === EMapFloor.HERO ||
+      value === EMapFloor.DOOR,
     isNextMovementKillWalker: value === EMapFloor.TRAP,
+    isNextMovementIsDoor: value === EMapFloor.DOOR,
   };
 }
 
@@ -68,6 +71,7 @@ function getEnemyValidMoves({ value }: IGetValidMovesProps) {
   return {
     isNextMovementValid: value === EMapFloor.FLOOR,
     isNextMovementKillWalker: false,
+    isNextMovementIsDoor: false,
   };
 }
 

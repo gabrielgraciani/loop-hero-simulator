@@ -6,6 +6,7 @@ import { Hero } from '../Hero';
 import { Trap } from '../Trap';
 import { Slime } from '../Slime';
 import { Skeleton } from '../Skeleton';
+import { Door } from '../Door';
 import { Map } from '../Map';
 
 import { EMapFloor } from '../../enum/MapFloor';
@@ -28,6 +29,8 @@ export const Game = (): JSX.Element => {
 
   function renderMapContent() {
     const elements: ReactElement[] = [];
+
+    let hasDoor = false;
 
     initialMap.forEach((row, rowIndex) => {
       row.forEach((column, columnIndex) => {
@@ -54,6 +57,16 @@ export const Game = (): JSX.Element => {
             elements.push(
               <Skeleton key={key} initialPosition={initialPosition} />,
             );
+            break;
+          }
+
+          case EMapFloor.DOOR: {
+            if (!hasDoor) {
+              elements.push(
+                <Door key={key} initialPosition={initialPosition} />,
+              );
+            }
+            hasDoor = true;
             break;
           }
 

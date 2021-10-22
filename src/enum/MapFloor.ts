@@ -5,4 +5,5 @@ export enum EMapFloor {
   TRAP = 3,
   SLIME = 4,
   SKELETON = 5,
+  DOOR = 6,
 }

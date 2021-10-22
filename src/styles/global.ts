@@ -19,8 +19,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: ${Colors.white};
-    color: ${Colors.black};
+    background: ${Colors.background};
+    color: ${Colors.white};
     height:100%;
   }
 
@@ -33,14 +33,14 @@ const GlobalStyles = createGlobalStyle`
 
   button {
     cursor: pointer;
-    color: ${Colors.black};
+    color: ${Colors.white};
     font-size: 1.4rem;
     border:0;
   }
 
   h1, h2, h3, h4, h5, h6 {
     margin: 0;
-    color: ${Colors.black};
+    color: ${Colors.white};
   }
 
   span, p, label, input, textarea, select, button, div {
