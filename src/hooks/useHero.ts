@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useCallback } from 'react';
+import { IScoreState } from '../redux/modules/score/types';
 
 import { attackDurationMS, heroInitialLife } from '../config/Constants';
 
@@ -14,8 +15,8 @@ import {
   updateMap,
   setHeroAttackPosition,
   resetEnemyAttackPosition,
-  setScore,
 } from '../redux/modules/updatedMap/actions';
+import { setGameOver, setScore } from '../redux/modules/score/actions';
 import { setIsLoading } from '../redux/modules/map/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
@@ -47,10 +48,13 @@ export const useHero = ({
   initialPosition,
 }: IUseHeroProps): IUseHeroResponse => {
   const dispatch = useDispatch();
-  const { updatedMap, enemyAttackPosition, score, enemiesQuantity } =
-    useSelector<IGlobalReduxState, IUpdatedMapState>(
-      state => state.updatedMapReducer,
-    );
+  const { updatedMap, enemyAttackPosition, enemiesQuantity } = useSelector<
+    IGlobalReduxState,
+    IUpdatedMapState
+  >(state => state.updatedMapReducer);
+  const { score } = useSelector<IGlobalReduxState, IScoreState>(
+    state => state.scoreReducer,
+  );
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.DOWN);
@@ -196,8 +200,9 @@ export const useHero = ({
     if (isDead) {
       setIsBlocked(true);
       setLife(0);
+      dispatch(setGameOver(true));
     }
-  }, [isDead]);
+  }, [dispatch, isDead]);
 
   return {
     x: position.x,

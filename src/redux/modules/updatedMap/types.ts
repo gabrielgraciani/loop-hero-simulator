@@ -1,16 +1,10 @@
 import { IPosition } from '../../../interfaces/Position';
 
-export interface IScore {
-  enemiesKilled: number;
-  mapsGenerated: number;
-}
-
 export interface IUpdatedMapState {
   updatedMap: number[][];
   heroAttackPosition?: IPosition;
   enemyAttackPosition?: IPosition[];
   enemiesQuantity: number;
-  score: IScore;
 }
 
 export enum EActionTypes {
@@ -19,7 +13,6 @@ export enum EActionTypes {
   setEnemyAttackPosition = 'SET_ENEMY_ATTACK_POSITION',
   resetEnemyAttackPosition = 'RESET_ENEMY_ATTACK_POSITION',
   setEnemiesQuantity = 'SET_ENEMIES_QUANTITY',
-  setScore = 'SET_SCORE',
 }
 
 export interface IGenerateMapResponse {
@@ -51,12 +44,5 @@ export interface ISetEnemiesQuantity {
   type: string;
   payload: {
     enemiesQuantity: number;
-  };
-}
-
-export interface ISetScoreResponse {
-  type: string;
-  payload: {
-    score: IScore;
   };
 }

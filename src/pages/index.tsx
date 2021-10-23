@@ -18,6 +18,7 @@ import { IGlobalReduxState } from '../redux/store';
 import { IMapState } from '../redux/modules/map/types';
 
 import { generateInitialMap } from '../map/helper';
+import { Modal } from '../components/Modal';
 
 export default function Home(): JSX.Element {
   const { width, height } = useWindowSize();
@@ -64,6 +65,8 @@ export default function Home(): JSX.Element {
       ) : (
         <Game />
       )}
+
+      <Modal />
     </>
   );
 }

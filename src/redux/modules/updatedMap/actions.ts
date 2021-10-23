@@ -6,8 +6,6 @@ import {
   ISetEnemyAttackPosition,
   IResetEnemyAttackPosition,
   ISetEnemiesQuantity,
-  IScore,
-  ISetScoreResponse,
 } from './types';
 
 export function updateMap(newMap: number[][]): IGenerateMapResponse {
@@ -47,12 +45,5 @@ export function setEnemiesQuantity(
   return {
     type: EActionTypes.setEnemiesQuantity,
     payload: { enemiesQuantity },
-  };
-}
-
-export function setScore(score: IScore): ISetScoreResponse {
-  return {
-    type: EActionTypes.setScore,
-    payload: { score },
   };
 }

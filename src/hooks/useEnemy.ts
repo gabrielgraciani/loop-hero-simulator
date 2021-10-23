@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useCallback } from 'react';
+import { IScoreState } from '../redux/modules/score/types';
 import { EMapFloor } from '../enum/MapFloor';
 
 import {
@@ -22,8 +23,8 @@ import {
   resetEnemyAttackPosition,
   setEnemyAttackPosition,
   setEnemiesQuantity,
-  setScore,
 } from '../redux/modules/updatedMap/actions';
+import { setScore } from '../redux/modules/score/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
 
@@ -57,10 +58,13 @@ export const useEnemy = ({
   initialPosition,
 }: IUseEnemyProps): IUseEnemyResponse => {
   const dispatch = useDispatch();
-  const { updatedMap, heroAttackPosition, enemiesQuantity, score } =
-    useSelector<IGlobalReduxState, IUpdatedMapState>(
-      state => state.updatedMapReducer,
-    );
+  const { updatedMap, heroAttackPosition, enemiesQuantity } = useSelector<
+    IGlobalReduxState,
+    IUpdatedMapState
+  >(state => state.updatedMapReducer);
+  const { score } = useSelector<IGlobalReduxState, IScoreState>(
+    state => state.scoreReducer,
+  );
 
   const [position, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState<IDirections>(EDirections.LEFT);

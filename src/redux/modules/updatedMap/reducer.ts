@@ -7,10 +7,6 @@ const INITIAL_STATE: IUpdatedMapState = {
   heroAttackPosition: undefined,
   enemyAttackPosition: [],
   enemiesQuantity: 0,
-  score: {
-    enemiesKilled: 0,
-    mapsGenerated: 0,
-  },
 };
 
 export const updatedMapReducer: Reducer<IUpdatedMapState> = (
@@ -62,15 +58,6 @@ export const updatedMapReducer: Reducer<IUpdatedMapState> = (
       return {
         ...state,
         enemiesQuantity,
-      };
-    }
-
-    case EActionTypes.setScore: {
-      const { score } = action.payload;
-
-      return {
-        ...state,
-        score,
       };
     }
 
