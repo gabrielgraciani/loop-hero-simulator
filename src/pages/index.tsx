@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Game } from '../components/Game';
 import { Loader } from '../components/Loader';
+import { GameOverModal } from '../components/GameOverModal';
 
 import { tileSize, loaderDurationMS } from '../config/Constants';
 
@@ -18,7 +19,6 @@ import { IGlobalReduxState } from '../redux/store';
 import { IMapState } from '../redux/modules/map/types';
 
 import { generateInitialMap } from '../map/helper';
-import { Modal } from '../components/Modal';
 
 export default function Home(): JSX.Element {
   const { width, height } = useWindowSize();
@@ -66,7 +66,7 @@ export default function Home(): JSX.Element {
         <Game />
       )}
 
-      <Modal />
+      <GameOverModal />
     </>
   );
 }

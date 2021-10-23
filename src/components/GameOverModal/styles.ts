@@ -17,7 +17,7 @@ const Container = styled.div<IStyledModalProps>`
   z-index: 999;
   opacity: ${({ isActive }) => (isActive ? '1' : '0')};
   visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
-  transition: opacity 0.5 ease;
+  transition: opacity 1.5s ease;
 
   &:after {
     content: '';

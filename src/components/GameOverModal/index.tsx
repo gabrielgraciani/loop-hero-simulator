@@ -15,7 +15,7 @@ import {
   TryAggainButton,
 } from './styles';
 
-export function Modal(): JSX.Element {
+export function GameOverModal(): JSX.Element {
   const { score, gameOver } = useSelector<IGlobalReduxState, IScoreState>(
     state => state.scoreReducer,
   );
