@@ -26,4 +26,20 @@ const SocialsContainer = styled.div`
 
 const Link = styled.a``;
 
-export { Container, Title, CommandsButton, SocialsContainer, Link };
+const CommandsContainer = styled.div`
+  margin-top: 2.4rem;
+`;
+
+const Command = styled.div`
+  margin-top: 0.8rem;
+`;
+
+export {
+  Container,
+  Title,
+  CommandsButton,
+  SocialsContainer,
+  Link,
+  Command,
+  CommandsContainer,
+};
