@@ -8,19 +8,14 @@ import { Slime } from '../Slime';
 import { Skeleton } from '../Skeleton';
 import { Door } from '../Door';
 import { Map } from '../Map';
+import { Header } from '../Header';
 
 import { EMapFloor } from '../../enum/MapFloor';
 
 import { IGlobalReduxState } from '../../redux/store';
 import { IMapState } from '../../redux/modules/map/types';
 
-import {
-  Container,
-  Header,
-  Title,
-  Author,
-  TextContainer,
-} from '../../pages/Home.styles';
+import { Container } from '../../pages/Home.styles';
 
 export const Game = (): JSX.Element => {
   const { initialMap } = useSelector<IGlobalReduxState, IMapState>(
@@ -82,21 +77,7 @@ export const Game = (): JSX.Element => {
 
   return (
     <>
-      <Header>
-        <TextContainer>
-          <Title>Walk Simulator Game</Title>
-          <Author>
-            made by{' '}
-            <a
-              href="https://www.linkedin.com/in/gabriel-thomaz-graciani-98400b166/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <strong>Gabriel Thomaz Graciani</strong>
-            </a>
-          </Author>
-        </TextContainer>
-      </Header>
+      <Header />
 
       <Container>
         <Map>{renderMapContent()}</Map>
