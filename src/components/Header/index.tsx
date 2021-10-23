@@ -48,7 +48,7 @@ export function Header(): JSX.Element {
           </Link>
 
           <Link
-            href="https://github.com/gabrielgraciani/walk-simulator-game"
+            href="https://github.com/gabrielgraciani/loop-hero-simulator"
             target="_blank"
           >
             <FaGithub size={24} />
