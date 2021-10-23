@@ -57,7 +57,7 @@ export default function Home(): JSX.Element {
   return (
     <>
       <Head>
-        <title>Walking Simulator Game</title>
+        <title>Loop Hero Simulator</title>
       </Head>
 
       {isLoading ? (
