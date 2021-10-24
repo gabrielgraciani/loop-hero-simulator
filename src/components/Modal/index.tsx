@@ -3,13 +3,13 @@ import { IoMdClose } from 'react-icons/io';
 import { Container, ContentContainer, Title, CloseContainer } from './styles';
 import { IModalProps } from './types';
 
-export function Modal({
+export const Modal = ({
   isActive,
   setIsActive,
   title,
   children,
   canClose,
-}: IModalProps): JSX.Element {
+}: IModalProps): JSX.Element => {
   function handleClose() {
     if (setIsActive) {
       setIsActive(false);
@@ -17,7 +17,7 @@ export function Modal({
   }
 
   return (
-    <Container isActive={isActive}>
+    <Container data-testid="Modal" isActive={isActive}>
       <ContentContainer>
         {canClose && (
           <CloseContainer>
@@ -30,4 +30,4 @@ export function Modal({
       </ContentContainer>
     </Container>
   );
-}
+};

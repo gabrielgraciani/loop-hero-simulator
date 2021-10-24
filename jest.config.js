@@ -7,7 +7,8 @@ module.exports = {
     "!src/styles/**",
     "!src/redux/**",
     "!src/interfaces/**",
-    "!src/enum/**"
+    "!src/enum/**",
+    "!src/components/RenderImages/**"
   ],
   setupFilesAfterEnv: [
     "<rootDir>/src/tests/setupTests.ts"
