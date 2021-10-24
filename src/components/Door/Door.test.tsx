@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react';
-import * as redux from 'react-redux';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 import { tileSize } from '../../config/Constants';
 
@@ -7,14 +9,21 @@ import { Colors } from '../../styles/Colors';
 
 import { Door } from '.';
 
+const mockStore = configureMockStore([thunk]);
+
 describe('Door Component', () => {
   it('should render correctly', () => {
-    const spy = jest.spyOn(redux, 'useSelector');
-    spy.mockReturnValueOnce({ enemiesQuantity: 5 });
+    const store = mockStore({
+      updatedMapReducer: { enemiesQuantity: 5 },
+    });
 
     const position = { x: 1, y: 1 };
 
-    const { getByTestId } = render(<Door initialPosition={position} />);
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Door initialPosition={position} />
+      </Provider>,
+    );
 
     const door = getByTestId('Door');
 
@@ -26,12 +35,17 @@ describe('Door Component', () => {
   });
 
   it('should render with open door background', () => {
-    const spy = jest.spyOn(redux, 'useSelector');
-    spy.mockReturnValueOnce({ enemiesQuantity: 0 });
+    const store = mockStore({
+      updatedMapReducer: { enemiesQuantity: 0 },
+    });
 
     const position = { x: 5, y: 8 };
 
-    const { getByTestId } = render(<Door initialPosition={position} />);
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Door initialPosition={position} />
+      </Provider>,
+    );
 
     const door = getByTestId('Door');
 
