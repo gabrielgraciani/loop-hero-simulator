@@ -1,29 +1,20 @@
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import { tileSize } from '../../config/Constants';
 
 import { Colors } from '../../styles/Colors';
 
-import { Door } from '.';
+import { renderWithRedux } from '../../tests/renderWithRedux';
 
-const mockStore = configureMockStore([thunk]);
+import { Door } from '.';
 
 describe('Door Component', () => {
   it('should render correctly', () => {
-    const store = mockStore({
-      updatedMapReducer: { enemiesQuantity: 5 },
-    });
-
     const position = { x: 1, y: 1 };
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <Door initialPosition={position} />
-      </Provider>,
-    );
+    const { getByTestId } = renderWithRedux({
+      ui: <Door initialPosition={position} />,
+      reducerName: 'updatedMapReducer',
+      reducerValue: { enemiesQuantity: 5 },
+    });
 
     const door = getByTestId('Door');
 
@@ -35,17 +26,13 @@ describe('Door Component', () => {
   });
 
   it('should render with open door background', () => {
-    const store = mockStore({
-      updatedMapReducer: { enemiesQuantity: 0 },
-    });
-
     const position = { x: 5, y: 8 };
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <Door initialPosition={position} />
-      </Provider>,
-    );
+    const { getByTestId } = renderWithRedux({
+      ui: <Door initialPosition={position} />,
+      reducerName: 'updatedMapReducer',
+      reducerValue: { enemiesQuantity: 0 },
+    });
 
     const door = getByTestId('Door');
 
