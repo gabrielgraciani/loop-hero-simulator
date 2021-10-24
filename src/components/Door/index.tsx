@@ -14,6 +14,7 @@ export const Door = ({ initialPosition }: IDoorProps): JSX.Element => {
       x={initialPosition.x}
       y={initialPosition.y}
       isOpen={enemiesQuantity === 0}
+      data-testid="Door"
     />
   );
 };
