@@ -80,8 +80,7 @@ function generateDoor({ rowsLength, columnsLength, map }: IGenerateDoorProps) {
 
   // getting only the first row to render the door
   const rowIndex = 0;
-  const newColumnIndex =
-    columnIndex === columnsLength - 1 ? columnIndex - 1 : columnIndex;
+  const newColumnIndex = columnIndex;
 
   // add door elemnt to 4 tiles
   newMap[rowIndex][newColumnIndex] = EMapFloor.DOOR;
