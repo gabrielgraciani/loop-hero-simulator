@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { Container, Image } from './styles';
 
 export function RenderImages(): JSX.Element {
   const doorImages = ['door/door1', 'door/door2'];
@@ -53,10 +53,10 @@ export function RenderImages(): JSX.Element {
   ];
 
   return (
-    <>
+    <Container>
       {allImages.map(image => (
-        <Image src={`/images/${image}.png`} width="0" height="0" />
+        <Image image={image} key={image} />
       ))}
-    </>
+    </Container>
   );
 }
