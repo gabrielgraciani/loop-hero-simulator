@@ -20,10 +20,10 @@ export function GameOverModal(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  function handlePlayAggain() {
+  function handlePlayAgain() {
     dispatch(
       setScore({
-        mapsGenerated: 0,
+        mapsGenerated: 1,
         enemiesKilled: 0,
       }),
     );
@@ -68,7 +68,7 @@ export function GameOverModal(): JSX.Element {
         </ScoreItem>
       </ScoreContainer>
 
-      <TryAggainButton onClick={handlePlayAggain}>
+      <TryAggainButton onClick={handlePlayAgain}>
         Jogar Novamente
       </TryAggainButton>
     </Modal>

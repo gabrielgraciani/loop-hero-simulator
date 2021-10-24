@@ -6,7 +6,7 @@ const INITIAL_STATE: IScoreState = {
   gameOver: false,
   score: {
     enemiesKilled: 0,
-    mapsGenerated: 0,
+    mapsGenerated: 1,
   },
 };
 

@@ -34,7 +34,7 @@ export function Header(): JSX.Element {
 
   return (
     <>
-      <Container>
+      <Container data-testid="Header">
         <Title>Loop Hero Simulator</Title>
 
         <CommandsButton onClick={handleOpenModal}>Comandos</CommandsButton>
