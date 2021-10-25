@@ -28,7 +28,7 @@ import { setScore } from '../redux/modules/score/actions';
 import { IUpdatedMapState } from '../redux/modules/updatedMap/types';
 import { IGlobalReduxState } from '../redux/store';
 
-import useInterval from './useInterval';
+import { useInterval } from './useInterval';
 
 import {
   handleNextPosition,
