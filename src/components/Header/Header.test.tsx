@@ -6,10 +6,13 @@ import { Header } from '.';
 
 describe('Header Component', () => {
   it('should render correctly', () => {
+    const reducers = {
+      scoreReducer: { gameOver: false },
+    };
+
     const { container } = renderWithRedux({
       ui: <Header />,
-      reducerName: 'scoreReducer',
-      reducerValue: { gameOver: false },
+      reducers,
     });
 
     expect(container).toHaveTextContent('Loop Hero Simulator');
@@ -17,10 +20,13 @@ describe('Header Component', () => {
   });
 
   it('should open modal when click on button', () => {
+    const reducers = {
+      scoreReducer: { gameOver: true },
+    };
+
     const { getByTestId } = renderWithRedux({
       ui: <Header />,
-      reducerName: 'scoreReducer',
-      reducerValue: { gameOver: true },
+      reducers,
     });
 
     const header = getByTestId('Header');

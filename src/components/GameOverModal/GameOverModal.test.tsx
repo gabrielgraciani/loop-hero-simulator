@@ -18,13 +18,16 @@ jest.mock(
 
 describe('GameOverModal Component', () => {
   it('should render correctly', () => {
-    const { container } = renderWithRedux({
-      ui: <GameOverModal />,
-      reducerName: 'scoreReducer',
-      reducerValue: {
+    const reducers = {
+      scoreReducer: {
         gameOver: false,
         score: { enemiesKilled: 0, mapsGenerated: 1 },
       },
+    };
+
+    const { container } = renderWithRedux({
+      ui: <GameOverModal />,
+      reducers,
     });
 
     expect(container).toHaveTextContent('1 mapas gerados');
@@ -32,13 +35,16 @@ describe('GameOverModal Component', () => {
   });
 
   it('should call play again button when clicked', () => {
-    const { getByTestId } = renderWithRedux({
-      ui: <GameOverModal />,
-      reducerName: 'scoreReducer',
-      reducerValue: {
+    const reducers = {
+      scoreReducer: {
         gameOver: false,
         score: { enemiesKilled: 0, mapsGenerated: 1 },
       },
+    };
+
+    const { getByTestId } = renderWithRedux({
+      ui: <GameOverModal />,
+      reducers,
     });
 
     const modal = getByTestId('Modal');
@@ -48,13 +54,16 @@ describe('GameOverModal Component', () => {
   });
 
   it('should render with high score by cookie', () => {
-    const { container } = renderWithRedux({
-      ui: <GameOverModal />,
-      reducerName: 'scoreReducer',
-      reducerValue: {
+    const reducers = {
+      scoreReducer: {
         gameOver: true,
         score: { enemiesKilled: 3, mapsGenerated: 1 },
       },
+    };
+
+    const { container } = renderWithRedux({
+      ui: <GameOverModal />,
+      reducers,
     });
 
     expect(container).toHaveTextContent('1 mapas gerados');
@@ -64,13 +73,16 @@ describe('GameOverModal Component', () => {
   });
 
   it('should actual score is bigger than score from cookie', () => {
-    const { container } = renderWithRedux({
-      ui: <GameOverModal />,
-      reducerName: 'scoreReducer',
-      reducerValue: {
+    const reducers = {
+      scoreReducer: {
         gameOver: true,
         score: { enemiesKilled: 15, mapsGenerated: 2 },
       },
+    };
+
+    const { container } = renderWithRedux({
+      ui: <GameOverModal />,
+      reducers,
     });
 
     expect(container).toHaveTextContent('2 mapas gerados');
@@ -78,13 +90,16 @@ describe('GameOverModal Component', () => {
   });
 
   it('should score from cookie is bigger than actual score', () => {
-    const { container } = renderWithRedux({
-      ui: <GameOverModal />,
-      reducerName: 'scoreReducer',
-      reducerValue: {
+    const reducers = {
+      scoreReducer: {
         gameOver: true,
         score: { enemiesKilled: 1, mapsGenerated: 0 },
       },
+    };
+
+    const { container } = renderWithRedux({
+      ui: <GameOverModal />,
+      reducers,
     });
 
     expect(container).toHaveTextContent('1 mapas gerados');

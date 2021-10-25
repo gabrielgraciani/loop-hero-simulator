@@ -1,6 +1,9 @@
 # Loop Hero Simulator
 
-Play an infinite game generating random maps each run.
+Gere infinitos mapas aleatórios em sua jornada.
+
+## Visualização
+Você pode visualizar o jogo clicando neste <a href="https://loop-hero-simulator.vercel.app/" target="_blank">link</a>.
 
 ![Gif of game in action](./public/gif/demo.gif)
 

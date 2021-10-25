@@ -10,10 +10,13 @@ describe('Door Component', () => {
   it('should render correctly', () => {
     const position = { x: 1, y: 1 };
 
+    const reducers = {
+      updatedMapReducer: { enemiesQuantity: 5 },
+    };
+
     const { getByTestId } = renderWithRedux({
       ui: <Door initialPosition={position} />,
-      reducerName: 'updatedMapReducer',
-      reducerValue: { enemiesQuantity: 5 },
+      reducers,
     });
 
     const door = getByTestId('Door');
@@ -28,10 +31,13 @@ describe('Door Component', () => {
   it('should render with open door background', () => {
     const position = { x: 5, y: 8 };
 
+    const reducers = {
+      updatedMapReducer: { enemiesQuantity: 0 },
+    };
+
     const { getByTestId } = renderWithRedux({
       ui: <Door initialPosition={position} />,
-      reducerName: 'updatedMapReducer',
-      reducerValue: { enemiesQuantity: 0 },
+      reducers,
     });
 
     const door = getByTestId('Door');

@@ -80,6 +80,7 @@ export function Hero({ initialPosition }: IHeroProps): JSX.Element {
         x={x}
         y={y}
         isDead={isDead}
+        data-testid="Hero"
       >
         <LifeContainer life={life}>{life}%</LifeContainer>
       </Container>
