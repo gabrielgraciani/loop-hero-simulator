@@ -12,6 +12,7 @@ export function Slime({ initialPosition }: ISlimeProps): JSX.Element {
   return (
     <>
       <Container
+        data-testid="Slime"
         isAttacking={isAttacking}
         direction={direction}
         x={x}

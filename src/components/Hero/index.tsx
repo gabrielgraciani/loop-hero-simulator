@@ -82,7 +82,9 @@ export function Hero({ initialPosition }: IHeroProps): JSX.Element {
         isDead={isDead}
         data-testid="Hero"
       >
-        <LifeContainer life={life}>{life}%</LifeContainer>
+        <LifeContainer data-testid="HeroLife" life={life}>
+          {life}%
+        </LifeContainer>
       </Container>
     </>
   );

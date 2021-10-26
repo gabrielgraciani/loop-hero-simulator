@@ -7,9 +7,6 @@ Você pode visualizar o jogo clicando neste <a href="https://loop-hero-simulator
 
 ![Gif of game in action](./public/gif/demo.gif)
 
-## Coverage reports
-`Em Progresso`
-
 ## :notebook: Executando
 
 ```bash

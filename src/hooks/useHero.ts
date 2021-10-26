@@ -118,10 +118,6 @@ export const useHero = ({
     let heroAttackPositionX = position.x;
 
     switch (direction) {
-      case EDirections.DOWN: {
-        heroAttackPositionY += 1;
-        break;
-      }
       case EDirections.UP: {
         heroAttackPositionY -= 1;
         break;
@@ -136,6 +132,7 @@ export const useHero = ({
       }
 
       default: {
+        heroAttackPositionY += 1;
         break;
       }
     }
@@ -178,13 +175,13 @@ export const useHero = ({
 
   useEffect(() => {
     if (enemyAttackPosition?.length && !isDead) {
-      const foundHeroPositionWhenSlimeAttack = enemyAttackPosition.find(
-        slimeAttack => {
-          return slimeAttack.x === position.x && slimeAttack.y === position.y;
+      const foundHeroPositionWhenEnemyAttack = enemyAttackPosition.find(
+        enemyAttack => {
+          return enemyAttack.x === position.x && enemyAttack.y === position.y;
         },
       );
 
-      if (foundHeroPositionWhenSlimeAttack) {
+      if (foundHeroPositionWhenEnemyAttack) {
         handleReceiveDamage();
       }
     }

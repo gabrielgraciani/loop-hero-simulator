@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom/extend-expect';
+import 'jest-styled-components';
 import { render, RenderResult } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
